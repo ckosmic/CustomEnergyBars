@@ -1,0 +1,18 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "Custom Energy Bars",
+  "name": "Custom Energy Bars",
+  "author": "ckosmic",
+  "version": "0.0.1",
+  "icon": "CustomEnergyBar.Resources.icon.png",
+  "description": "Customize your energy bar!",
+  "gameVersion": "1.14.0",
+  "dependsOn": {
+    "BSIPA": "^4.0.5",
+    "BeatSaberMarkupLanguage": "^1.5.2",
+    "BS_Utils": "^1.8.0"
+  },
+  "links": {
+    "project-source": "https://github.com/ckosmic/CustomEnergyBars"
+  }
+}

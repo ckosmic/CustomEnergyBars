@@ -1,0 +1,14 @@
+﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+
+	<horizontal>
+		<vertical pad-left='50'>
+			<page-button event-click='energyBarList#PageUp' direction='Up' />
+			<list id='energyBarList' expand-cell='true' select-cell='energyBarSelect' />
+			<page-button event-click='energyBarList#PageDown' direction='Down' />
+		</vertical>
+		<horizontal horizontal-fit='PreferredSize' pad-top='50'>
+			<button text='Reload Energy Bars' on-click='reloadEnergyBars' />
+		</horizontal>
+	</horizontal>
+	
+</bg>

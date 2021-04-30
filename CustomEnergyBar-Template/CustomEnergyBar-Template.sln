@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEnergyBar-Template", "Assembly-CSharp.csproj", "{764A8749-C04F-5FAE-93A4-0A4D49A9F691}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEnergyBar-Template", "Assembly-CSharp-Editor.csproj", "{CD2F5A23-CFAD-FB48-A0D8-026D51F771EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{764A8749-C04F-5FAE-93A4-0A4D49A9F691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{764A8749-C04F-5FAE-93A4-0A4D49A9F691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{764A8749-C04F-5FAE-93A4-0A4D49A9F691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{764A8749-C04F-5FAE-93A4-0A4D49A9F691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD2F5A23-CFAD-FB48-A0D8-026D51F771EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD2F5A23-CFAD-FB48-A0D8-026D51F771EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD2F5A23-CFAD-FB48-A0D8-026D51F771EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD2F5A23-CFAD-FB48-A0D8-026D51F771EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

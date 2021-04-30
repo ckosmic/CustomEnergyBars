@@ -1,0 +1,12 @@
+﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+
+	<vertical child-control-height='false'>
+		<horizontal bg='panel-top' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
+			<text text='Preview' align='Center' font-size='10' />
+		</horizontal>
+		<horizontal>
+			<text text='No preview available' align='Center' font-size='10' id='message-text' />
+		</horizontal>
+	</vertical>
+	
+</bg>

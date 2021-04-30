@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEnergyBar", "CustomEnergyBar\CustomEnergyBar.csproj", "{DA33243A-E258-42DB-AC8C-C2C35C29C32B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomEnergyBarUnityPlugin", "CustomEnergyBarUnityPlugin\CustomEnergyBarUnityPlugin.csproj", "{1DE0C08A-4765-4AD1-97DA-24B925BE68F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA33243A-E258-42DB-AC8C-C2C35C29C32B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA33243A-E258-42DB-AC8C-C2C35C29C32B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA33243A-E258-42DB-AC8C-C2C35C29C32B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA33243A-E258-42DB-AC8C-C2C35C29C32B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE0C08A-4765-4AD1-97DA-24B925BE68F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DE0C08A-4765-4AD1-97DA-24B925BE68F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DE0C08A-4765-4AD1-97DA-24B925BE68F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DE0C08A-4765-4AD1-97DA-24B925BE68F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A054BB7-CE17-4CCB-8C2C-EF2B77198704}
+	EndGlobalSection
+EndGlobal
