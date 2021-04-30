@@ -1105,7 +1105,7 @@ GameObject:
   - component: {fileID: 737897785}
   - component: {fileID: 737897784}
   m_Layer: 0
-  m_Name: CustomHealthBar
+  m_Name: CustomEnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
