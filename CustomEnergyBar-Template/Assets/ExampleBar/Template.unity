@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 22095903}
   - component: {fileID: 22095907}
   - component: {fileID: 22095906}
-  - component: {fileID: 22095904}
   m_Layer: 5
   m_Name: Life 1
   m_TagString: Untagged
@@ -149,19 +148,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.951, y: 0}
   m_SizeDelta: {x: 0.6, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &22095904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 22095902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -844951107, guid: d4ca82ae5516daf4cae1dc9c3bbefd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  parameterName: FillAmount
 --- !u!114 &22095906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +443,6 @@ GameObject:
   - component: {fileID: 402973009}
   - component: {fileID: 402973012}
   - component: {fileID: 402973011}
-  - component: {fileID: 402973010}
   m_Layer: 5
   m_Name: Life 3
   m_TagString: Untagged
@@ -483,19 +468,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.318, y: 0}
   m_SizeDelta: {x: 0.6, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &402973010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 402973008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -844951107, guid: d4ca82ae5516daf4cae1dc9c3bbefd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  parameterName: FillAmount
 --- !u!114 &402973011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,7 +728,6 @@ GameObject:
   - component: {fileID: 670743609}
   - component: {fileID: 670743612}
   - component: {fileID: 670743611}
-  - component: {fileID: 670743610}
   m_Layer: 5
   m_Name: Life 2
   m_TagString: Untagged
@@ -782,19 +753,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.318, y: 0}
   m_SizeDelta: {x: 0.6, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &670743610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 670743608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -844951107, guid: d4ca82ae5516daf4cae1dc9c3bbefd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  parameterName: FillAmount
 --- !u!114 &670743611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -843,7 +801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &710897076
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1498,7 +1456,6 @@ GameObject:
   - component: {fileID: 1441069936}
   - component: {fileID: 1441069939}
   - component: {fileID: 1441069938}
-  - component: {fileID: 1441069937}
   m_Layer: 5
   m_Name: Life 4
   m_TagString: Untagged
@@ -1524,19 +1481,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.948, y: 0}
   m_SizeDelta: {x: 0.6, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1441069937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1441069935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -844951107, guid: d4ca82ae5516daf4cae1dc9c3bbefd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  parameterName: FillAmount
 --- !u!114 &1441069938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1580,7 +1524,6 @@ GameObject:
   - component: {fileID: 1654117537}
   - component: {fileID: 1654117541}
   - component: {fileID: 1654117540}
-  - component: {fileID: 1654117538}
   m_Layer: 5
   m_Name: Foreground
   m_TagString: Untagged
@@ -1606,19 +1549,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1.25, y: 0}
   m_SizeDelta: {x: 2.5, y: 0.1}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1654117538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1654117536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -844951107, guid: d4ca82ae5516daf4cae1dc9c3bbefd00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  parameterName: FillAmount
 --- !u!114 &1654117540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1836,7 +1766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1872319561
 RectTransform:
   m_ObjectHideFlags: 0
