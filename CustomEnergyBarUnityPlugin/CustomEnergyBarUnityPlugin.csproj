@@ -75,9 +75,6 @@
     <Compile Include="..\CustomEnergyBar\Data\EventManager.cs">
       <Link>Data\EventManager.cs</Link>
     </Compile>
-    <Compile Include="..\CustomEnergyBar\Data\EventFilterBehaviour.cs">
-      <Link>Data\EventFilterBehaviour.cs</Link>
-    </Compile>
     <Compile Include="..\CustomEnergyBar\Data\AnimatorEventHandler.cs">
       <Link>Data\AnimatorEventHandler.cs</Link>
     </Compile>
