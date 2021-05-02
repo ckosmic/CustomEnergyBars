@@ -25,6 +25,9 @@ namespace CustomEnergyBar
 		public UnityEvent[] OnBatteryLivesIncreased;
 		public UnityEvent[] OnBatteryLivesDecreased;
 
+		#region Serialization
+		// All this just to get a UnityEvent<T> superclass to serialize in asset bundles... took like 3 days to figure out.
+
 		[SerializeField, HideInInspector]
 		private string json_onEnergyChanged;
 		[SerializeField, HideInInspector]
@@ -45,7 +48,6 @@ namespace CustomEnergyBar
 		}
 
 		public static void AssignTargets(UnityEventBase unityEvent, Object[] objects) {
-			// All this just to set the event receiver object... took like 3 days to figure out
 #if PLUGIN
 			BindingFlags bindings = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static;
 			Type PersistentCall = typeof(UnityEventBase).Assembly.GetType("UnityEngine.Events.PersistentCall");
@@ -76,6 +78,7 @@ namespace CustomEnergyBar
 			return targets;
 		}
 #endif
+		#endregion
 	}
 
 	[Serializable]

@@ -1,0 +1,2 @@
+Please refer to the CustomEnergyBars wiki to learn how to make a custom energy bar
+https://github.com/ckosmic/CustomEnergyBars/wiki/Getting-Started
