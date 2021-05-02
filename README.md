@@ -9,7 +9,7 @@ A Beat Saber mod that adds custom energy bars to the game.
 To install custom energy bars, place a `.energy` file into the CustomEnergyBars folder located in your Beat Saber directory.  If this folder doesn't exist, either create it yourself or run Beat Saber at least once with the mod installed.
 
 ## Creating your own Custom Energy Bar
-Refer to the [wiki](https://github.com/ckosmic/CustomEnergyBars/wiki) to learn how to make a custom energy bar and its components.
+Refer to the [wiki](https://github.com/ckosmic/CustomEnergyBars/wiki) to learn how to make a custom energy bar.
 
 ## For Developers
 ### Contributing to CustomEnergyBars (taken from [CustomSabers](https://github.com/nalulululuna/CustomSaberPlugin))
