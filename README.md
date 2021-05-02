@@ -12,7 +12,7 @@ To install custom energy bars, place a `.energy` file into the CustomEnergyBars 
 Refer to the [wiki](https://github.com/ckosmic/CustomEnergyBars/wiki) to learn how to make a custom energy bar.
 
 ## For Developers
-### Contributing to CustomEnergyBars (taken from [CustomSabers](https://github.com/nalulululuna/CustomSaberPlugin))
+### Contributing to CustomEnergyBars (info taken from [CustomSabers](https://github.com/nalulululuna/CustomSaberPlugin))
 In order to build this project, please create the file CustomEnergyBar.csproj.user and add your Beat Saber directory path to it in the project directory. This file should not be uploaded to GitHub and is in the .gitignore.
 
 ```xml 
