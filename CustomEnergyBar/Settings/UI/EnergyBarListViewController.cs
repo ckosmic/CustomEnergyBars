@@ -8,6 +8,7 @@ using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Attributes;
 using UnityEngine;
+using TMPro;
 
 namespace CustomEnergyBar.Settings.UI
 {
@@ -20,13 +21,22 @@ namespace CustomEnergyBar.Settings.UI
 
 		[UIComponent("energyBarList")]
 		public CustomListTableData customListTableData = null;
+		[UIComponent("description")]
+		public TextMeshProUGUI description;
+
+		[UIValue("description-text")]
+		public string descriptionText = "No description provided";
 
 		public EnergyBarPreviewViewController energyBarPreviewViewController;
 
 		[UIAction("energyBarSelect")]
 		public void Select(TableView view, int row) {
 			EnergyLoader.SelectedEnergyBar = row;
-			Plugin.Settings.Selected = EnergyLoader.CustomEnergyBars[row].descriptor.bundleId;
+			EnergyBarDescriptor descriptor = EnergyLoader.CustomEnergyBars[row].descriptor;
+			Plugin.Settings.Selected = descriptor.bundleId;
+			if (!string.IsNullOrWhiteSpace(descriptor.description)) {
+				description.text = descriptor.description;
+			}
 			GeneratePreview(row);
 		}
 

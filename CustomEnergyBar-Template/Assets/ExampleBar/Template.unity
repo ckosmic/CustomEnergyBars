@@ -1082,6 +1082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Example Bar
   author: unknown
+  description: An example energy bar.
   icon: {fileID: 21300000, guid: 242f6f250a24b7549b632fcf200ab5a4, type: 3}
   bundleId: unknown.Example Bar
   standardBar: {fileID: 1872319560}
@@ -1837,7 +1838,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   OnBatteryLivesIncreased: []
   OnBatteryLivesDecreased: []
-  json_onEnergyChanged: '{"m_PersistentCalls":{"m_Calls":[{"m_Target":{"instanceID":19556},"m_MethodName":"SetFloat","m_Mode":0,"m_Arguments":{"m_ObjectArgument":{"instanceID":0},"m_ObjectArgumentAssemblyTypeName":"UnityEngine.Object,
+  json_onEnergyChanged: '{"m_PersistentCalls":{"m_Calls":[{"m_Target":{"instanceID":11956},"m_MethodName":"SetFloat","m_Mode":0,"m_Arguments":{"m_ObjectArgument":{"instanceID":0},"m_ObjectArgumentAssemblyTypeName":"UnityEngine.Object,
     UnityEngine","m_IntArgument":0,"m_FloatArgument":0.0,"m_StringArgument":"","m_BoolArgument":false},"m_CallState":2}]},"m_TypeName":"CustomEnergyBar.UnityEventFloat,
     CustomEnergyBar, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"}'
   targets_onEnergyChanged:

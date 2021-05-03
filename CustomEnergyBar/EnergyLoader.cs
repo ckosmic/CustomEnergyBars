@@ -66,6 +66,7 @@ namespace CustomEnergyBar
 			defaultEnergyBar.descriptor = new EnergyBarDescriptor();
 			defaultEnergyBar.descriptor.name = "Default";
 			defaultEnergyBar.descriptor.author = "Beat Saber";
+			defaultEnergyBar.descriptor.description = "The default energy bar.";
 			defaultEnergyBar.descriptor.bundleId = "defaultEnergyBar";
 			defaultEnergyBar.descriptor.icon = ResourceUtilities.LoadSpriteFromResource("CustomEnergyBar.Resources.icon.png");
 

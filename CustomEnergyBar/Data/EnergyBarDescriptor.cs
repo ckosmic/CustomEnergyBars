@@ -11,6 +11,7 @@ namespace CustomEnergyBar
 	{
 		public string name = "MyCustomEnergyBar";
 		public string author = "unknown";
+		public string description = "A custom energy bar!";
 		public Sprite icon;
 
 		[HideInInspector]

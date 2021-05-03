@@ -1,7 +1,7 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<settings-container>
 		<horizontal bg='panel-top' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
-			<text text='Settings' align='Center' font-size='10' />
+			<text text='Settings' align='Center' font-size='10' italics='true' />
 		</horizontal>
 		<bool-setting text='Allow Sound Effects' apply-on-change='true' value='allow-sfx' hover-hint='Allows sound effects to be played from the custom energy bar.' />
 	</settings-container>

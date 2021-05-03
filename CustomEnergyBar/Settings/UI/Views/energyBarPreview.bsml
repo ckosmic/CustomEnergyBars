@@ -2,7 +2,7 @@
 
 	<vertical child-control-height='false'>
 		<horizontal bg='panel-top' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
-			<text text='Preview' align='Center' font-size='10' />
+			<text text='Preview' align='Center' font-size='10' italics='true' />
 		</horizontal>
 		<horizontal>
 			<text text='No preview available' align='Center' font-size='10' id='message-text' />
