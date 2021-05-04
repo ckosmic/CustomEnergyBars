@@ -1,4 +1,5 @@
 ﻿using CustomEnergyBar.Utils;
+using CustomEnergyBar.API;
 using HMUI;
 using System;
 using System.Collections;
@@ -37,7 +38,8 @@ namespace CustomEnergyBar
 
 		private void OnGameSceneLoaded() {
 			if (Plugin.Settings.Selected != "defaultEnergyBar") {
-				StartCoroutine(IEInstantiateEnergyBar());
+				EnergyBar energyBar = (CEBAPI.overrideBar != null) ? CEBAPI.overrideBar : EnergyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
+				InstantiateEnergyBar(energyBar);
 			}
 		}
 
@@ -65,13 +67,16 @@ namespace CustomEnergyBar
 			BS_Utils.Utilities.BSEvents.gameSceneLoaded -= OnGameSceneLoaded;
 		}
 
-		IEnumerator IEInstantiateEnergyBar() {
+		public void InstantiateEnergyBar(EnergyBar energyBar) {
+			StartCoroutine(IEInstantiateEnergyBar(energyBar));
+		}
+
+		IEnumerator IEInstantiateEnergyBar(EnergyBar energyBar) {
 			yield return new WaitUntil(() => Resources.FindObjectsOfTypeAll<GameEnergyUIPanel>().Any());
 			GameEnergyUIPanel originalEnergyUI = Resources.FindObjectsOfTypeAll<GameEnergyUIPanel>().FirstOrDefault();
 			yield return new WaitUntil(() => Resources.FindObjectsOfTypeAll<GameEnergyCounter>().Any());
 			GameEnergyCounter energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
 			if (originalEnergyUI.gameObject.activeInHierarchy) {
-				EnergyBar energyBar = EnergyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
 				GameObject prefab = energyBar.energyBarPrefab;
 				GameObject go = Instantiate(prefab, originalEnergyUI.transform.position, originalEnergyUI.transform.rotation);
 				AddManagers(go);

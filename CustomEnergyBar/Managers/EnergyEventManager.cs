@@ -36,7 +36,8 @@ namespace CustomEnergyBar
 
 		private void OnEnergyReachedZeroHandler() {
 			eventManager.OnEnergyReachedZero?.Invoke();
-			rootEnergyBar.SetActive(false);
+			if(eventManager.DeactivateOnEnergyReachedZero)
+				rootEnergyBar.SetActive(false);
 		}
 
 		private void OnEnergyChangedHandler(float energy) {

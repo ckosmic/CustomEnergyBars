@@ -16,6 +16,7 @@ namespace CustomEnergyBar
 		public static bool IsLoaded { get; private set; } = false;
 		public static int SelectedEnergyBar { get; internal set; } = 0;
 		public static List<EnergyBar> CustomEnergyBars { get; private set; } = new List<EnergyBar>();
+		public static List<EnergyBar> APIEnergyBars { get; private set; } = new List<EnergyBar>();
 		public static List<string> AssetBundlePaths { get; private set; } = new List<string>();
 
 		internal static void Load() {
@@ -83,11 +84,23 @@ namespace CustomEnergyBar
 		}
 
 		public static EnergyBar GetEnergyBarByBundleId(string bundleId) {
-			foreach (EnergyBar eb in CustomEnergyBars) {
-				if (eb.descriptor.bundleId == bundleId)
-					return eb;
+			foreach (EnergyBar energyBar in CustomEnergyBars) {
+				if (energyBar.descriptor.bundleId == bundleId)
+					return energyBar;
 			}
 			return null;
+		}
+
+		public static EnergyBar GetAPIEnergyBarByBundleId(string bundleId) {
+			foreach (EnergyBar energyBar in APIEnergyBars) {
+				if (energyBar.descriptor.bundleId == bundleId)
+					return energyBar;
+			}
+			return null;
+		}
+
+		public static void AddAPIEnergyBar(EnergyBar energyBar) {
+			APIEnergyBars.Add(energyBar);
 		}
 	}
 }

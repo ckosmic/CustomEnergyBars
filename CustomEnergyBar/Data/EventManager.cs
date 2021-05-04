@@ -19,6 +19,7 @@ namespace CustomEnergyBar
 	public class EventManager : MonoBehaviour {
 		public UnityEvent OnInit;
 		public UnityEvent OnEnergyReachedZero;
+		public bool DeactivateOnEnergyReachedZero = true;
 		public UnityEvent OnEnergyIncreased;
 		public UnityEvent OnEnergyDecreased;
 		public UnityEventFloat OnEnergyChanged;
