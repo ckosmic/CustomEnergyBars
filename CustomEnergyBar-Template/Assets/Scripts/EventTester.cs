@@ -6,8 +6,9 @@ using CustomEnergyBar;
 public class EventTester : MonoBehaviour {
 
 	public EventManager eventManager;
-
 	public float onEnergyChangedValue = 1.0f;
+
+	public bool autoOnEnergyChanged = false;
 
 	private void Start() {
 		InvokeOnInit();

@@ -13,15 +13,20 @@ namespace CustomEnergyBar
 	[CustomEditor(typeof(EventTester))]
 	public class EventTesterEditor : Editor {
 		private EventTester eventTester;
+		private float prevEnergy;
 
 		SerializedProperty eventManager;
 		SerializedProperty onEnergyChangedValue;
+		SerializedProperty autoOnEnergyChanged;
 
 		private void OnEnable() {
 			eventTester = (EventTester)target;
 
 			eventManager = serializedObject.FindProperty("eventManager");
 			onEnergyChangedValue = serializedObject.FindProperty("onEnergyChangedValue");
+			autoOnEnergyChanged = serializedObject.FindProperty("autoOnEnergyChanged");
+
+			prevEnergy = onEnergyChangedValue.floatValue;
 		}
 
 		public override void OnInspectorGUI() {
@@ -44,12 +49,24 @@ namespace CustomEnergyBar
 			if (GUILayout.Button("Invoke OnEnergyDecreased()")) {
 				eventTester.InvokeOnEnergyDecreased();
 			}
+
+			EditorGUI.BeginChangeCheck();
 			EditorGUILayout.BeginHorizontal();
-			onEnergyChangedValue.floatValue = EditorGUILayout.FloatField(onEnergyChangedValue.floatValue);
+			onEnergyChangedValue.floatValue = EditorGUILayout.Slider(onEnergyChangedValue.floatValue, 0.0f, 1.0f);
 			if (GUILayout.Button("Invoke OnEnergyChanged(Single)")) {
 				eventTester.InvokeOnEnergyChanged(onEnergyChangedValue.floatValue);
 			}
 			EditorGUILayout.EndHorizontal();
+			autoOnEnergyChanged.boolValue = EditorGUILayout.Toggle("Auto-invoke", autoOnEnergyChanged.boolValue);
+			if (EditorGUI.EndChangeCheck() && autoOnEnergyChanged.boolValue) {
+				eventTester.InvokeOnEnergyChanged(onEnergyChangedValue.floatValue);
+				if (onEnergyChangedValue.floatValue > prevEnergy) {
+					eventTester.InvokeOnEnergyIncreased();
+				} else if (onEnergyChangedValue.floatValue < prevEnergy) {
+					eventTester.InvokeOnEnergyDecreased();
+				}
+				prevEnergy = onEnergyChangedValue.floatValue;
+			}
 
 			serializedObject.ApplyModifiedProperties();
 		}
