@@ -56,6 +56,22 @@ namespace CustomEnergyBar
 					if (eventManager.OnBatteryLivesDecreased.Length > 0)
 						eventManager.OnBatteryLivesDecreased[eventIndex]?.Invoke();
 				}
+			} else {
+				if (energy > _previousEnergy) {
+					if (eventManager.OnBatteryLivesIncreased.Length > 0) {
+						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesIncreased.Length);
+						for (int i = 0; i < eventIndex; i++) {
+							eventManager.OnBatteryLivesIncreased[i]?.Invoke();
+						}
+					}
+				} else if (energy < _previousEnergy) {
+					if (eventManager.OnBatteryLivesDecreased.Length > 0) {
+						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesDecreased.Length);
+						for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
+							eventManager.OnBatteryLivesDecreased[i]?.Invoke();
+						}
+					}
+				}
 			}
 			_previousEnergy = energy;
 		}
@@ -71,7 +87,13 @@ namespace CustomEnergyBar
 			eventManager.DeserializeEvents();
 			SubscribeToEvents();
 			_energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
-			eventManager.OnEnergyChanged?.Invoke(_energyCounter.energy);
+			OnEnergyChangedHandler(_energyCounter.energy);
+			if (eventManager.OnBatteryLivesDecreased.Length > 0) {
+				int eventIndex = Mathf.CeilToInt(_energyCounter.energy * eventManager.OnBatteryLivesDecreased.Length);
+				for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
+					eventManager.OnBatteryLivesDecreased[i]?.Invoke();
+				}
+			}
 			_previousEnergy = _energyCounter.energy;
 		}
 	}

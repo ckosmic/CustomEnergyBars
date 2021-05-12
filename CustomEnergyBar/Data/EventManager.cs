@@ -23,6 +23,7 @@ namespace CustomEnergyBar
 		public UnityEvent OnEnergyIncreased;
 		public UnityEvent OnEnergyDecreased;
 		public UnityEventFloat OnEnergyChanged;
+
 		public UnityEvent[] OnBatteryLivesIncreased;
 		public UnityEvent[] OnBatteryLivesDecreased;
 

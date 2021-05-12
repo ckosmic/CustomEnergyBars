@@ -61,12 +61,27 @@ namespace CustomEnergyBar
 		}
 
 		private void InvokeAll(EventManager[] eventManagers, float energy) {
-			foreach (EventManager em in eventManagers) {
-				em.OnEnergyChanged?.Invoke(energy);
+			foreach (EventManager eventManager in eventManagers) {
+				eventManager.OnEnergyChanged?.Invoke(energy);
 				if (energy > _previousEnergy) {
-					em.OnEnergyIncreased?.Invoke();
+					eventManager.OnEnergyIncreased?.Invoke();
 				} else if (energy < _previousEnergy) {
-					em.OnEnergyDecreased?.Invoke();
+					eventManager.OnEnergyDecreased?.Invoke();
+				}
+				if (energy > _previousEnergy) {
+					if (eventManager.OnBatteryLivesIncreased.Length > 0) {
+						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesIncreased.Length);
+						for (int i = 0; i < eventIndex; i++) {
+							eventManager.OnBatteryLivesIncreased[i]?.Invoke();
+						}
+					}
+				} else if (energy < _previousEnergy) {
+					if (eventManager.OnBatteryLivesDecreased.Length > 0) {
+						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesDecreased.Length);
+						for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
+							eventManager.OnBatteryLivesDecreased[i]?.Invoke();
+						}
+					}
 				}
 				_previousEnergy = energy;
 			}
