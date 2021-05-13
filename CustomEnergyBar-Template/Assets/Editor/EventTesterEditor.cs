@@ -17,6 +17,7 @@ namespace CustomEnergyBar
 
 		SerializedProperty eventManager;
 		SerializedProperty onEnergyChangedValue;
+		SerializedProperty batteryLives;
 		SerializedProperty autoOnEnergyChanged;
 
 		private void OnEnable() {
@@ -24,6 +25,7 @@ namespace CustomEnergyBar
 
 			eventManager = serializedObject.FindProperty("eventManager");
 			onEnergyChangedValue = serializedObject.FindProperty("onEnergyChangedValue");
+			batteryLives = serializedObject.FindProperty("batteryLives");
 			autoOnEnergyChanged = serializedObject.FindProperty("autoOnEnergyChanged");
 
 			prevEnergy = onEnergyChangedValue.floatValue;
@@ -67,6 +69,16 @@ namespace CustomEnergyBar
 				}
 				prevEnergy = onEnergyChangedValue.floatValue;
 			}
+
+			if (GUILayout.Button("Invoke OnBatteryLivesIncreased()")) {
+				batteryLives.intValue++;
+				eventTester.InvokeOnBatteryLivesIncreased(batteryLives.intValue);
+			}
+			if (GUILayout.Button("Invoke OnBatteryLivesDecreased()")) {
+				batteryLives.intValue--;
+				eventTester.InvokeOnBatteryLivesDecreased(batteryLives.intValue);
+			}
+			EditorGUILayout.LabelField("Battery lives: " + batteryLives.intValue);
 
 			serializedObject.ApplyModifiedProperties();
 		}

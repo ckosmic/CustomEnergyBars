@@ -49,11 +49,12 @@ namespace CustomEnergyBar
 			}
 			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Battery) {
 				int eventIndex = _energyCounter.batteryEnergy;
+				Plugin.Log.Info("Battery lives: " + eventIndex);
 				if (energy > _previousEnergy) {
-					if (eventManager.OnBatteryLivesIncreased.Length > 0)
-						eventManager.OnBatteryLivesIncreased[eventIndex]?.Invoke();
+					if (eventManager.OnBatteryLivesIncreased.Length > 0 && eventIndex < eventManager.OnBatteryLivesIncreased.Length)
+						eventManager.OnBatteryLivesIncreased[eventIndex-1]?.Invoke();
 				} else if (energy < _previousEnergy) {
-					if (eventManager.OnBatteryLivesDecreased.Length > 0)
+					if (eventManager.OnBatteryLivesDecreased.Length > 0 && eventIndex < eventManager.OnBatteryLivesDecreased.Length)
 						eventManager.OnBatteryLivesDecreased[eventIndex]?.Invoke();
 				}
 			} else {
@@ -61,7 +62,7 @@ namespace CustomEnergyBar
 					if (eventManager.OnBatteryLivesIncreased.Length > 0) {
 						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesIncreased.Length);
 						for (int i = 0; i < eventIndex; i++) {
-							eventManager.OnBatteryLivesIncreased[i]?.Invoke();
+							eventManager.OnBatteryLivesIncreased[i-1]?.Invoke();
 						}
 					}
 				} else if (energy < _previousEnergy) {
@@ -88,13 +89,18 @@ namespace CustomEnergyBar
 			SubscribeToEvents();
 			_energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
 			OnEnergyChangedHandler(_energyCounter.energy);
-			if (eventManager.OnBatteryLivesDecreased.Length > 0) {
-				int eventIndex = Mathf.CeilToInt(_energyCounter.energy * eventManager.OnBatteryLivesDecreased.Length);
-				for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
-					eventManager.OnBatteryLivesDecreased[i]?.Invoke();
+			
+			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Bar) {
+				if (eventManager.OnBatteryLivesDecreased.Length > 0) {
+					int eventIndex = Mathf.CeilToInt(_energyCounter.energy * eventManager.OnBatteryLivesDecreased.Length);
+					for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
+						eventManager.OnBatteryLivesDecreased[i]?.Invoke();
+					}
 				}
+				_previousEnergy = _energyCounter.energy;
+			} else {
+				_previousEnergy = 1.1f;
 			}
-			_previousEnergy = _energyCounter.energy;
 		}
 	}
 }

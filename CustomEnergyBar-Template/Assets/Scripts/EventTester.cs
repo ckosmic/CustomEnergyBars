@@ -7,10 +7,12 @@ public class EventTester : MonoBehaviour {
 
 	public EventManager eventManager;
 	public float onEnergyChangedValue = 1.0f;
+	public int batteryLives = 4;
 
 	public bool autoOnEnergyChanged = false;
 
 	private void Start() {
+		batteryLives = 4;
 		InvokeOnInit();
 		InvokeOnEnergyChanged(0.5f);
 	}
@@ -33,5 +35,13 @@ public class EventTester : MonoBehaviour {
 
 	public void InvokeOnEnergyChanged(float value) {
 		eventManager.OnEnergyChanged.Invoke(value);
+	}
+
+	public void InvokeOnBatteryLivesIncreased(int index) {
+		eventManager.OnBatteryLivesIncreased[index-1].Invoke();
+	}
+
+	public void InvokeOnBatteryLivesDecreased(int index) {
+		eventManager.OnBatteryLivesDecreased[index].Invoke();
 	}
 }
