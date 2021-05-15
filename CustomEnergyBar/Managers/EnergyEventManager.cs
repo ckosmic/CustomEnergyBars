@@ -49,7 +49,6 @@ namespace CustomEnergyBar
 			}
 			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Battery) {
 				int eventIndex = _energyCounter.batteryEnergy;
-				Plugin.Log.Info("Battery lives: " + eventIndex);
 				if (energy > _previousEnergy) {
 					if (eventManager.OnBatteryLivesIncreased.Length > 0 && eventIndex < eventManager.OnBatteryLivesIncreased.Length)
 						eventManager.OnBatteryLivesIncreased[eventIndex-1]?.Invoke();
@@ -88,6 +87,10 @@ namespace CustomEnergyBar
 			eventManager.DeserializeEvents();
 			SubscribeToEvents();
 			_energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
+			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Bar)
+				_previousEnergy = _energyCounter.energy;
+			else
+				_previousEnergy = 1.1f;
 			OnEnergyChangedHandler(_energyCounter.energy);
 			
 			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Bar) {
@@ -97,9 +100,6 @@ namespace CustomEnergyBar
 						eventManager.OnBatteryLivesDecreased[i]?.Invoke();
 					}
 				}
-				_previousEnergy = _energyCounter.energy;
-			} else {
-				_previousEnergy = 1.1f;
 			}
 		}
 	}
