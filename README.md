@@ -15,6 +15,7 @@ Refer to the [wiki](https://github.com/ckosmic/CustomEnergyBars/wiki) to learn h
 * [Example Bar.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Example%20Bar.energy)
 * [Simple Bar.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Simple%20Bar.energy)
 * [Kingdom Hearts.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Kingdom%20Hearts.energy)
+* [Default+.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Default%2B.energy)
 
 ## For developers
 ### Contributing to CustomEnergyBars (info taken from [CustomSabers](https://github.com/nalulululuna/CustomSaberPlugin))
