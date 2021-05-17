@@ -43,6 +43,7 @@ namespace CustomEnergyBar.Settings.UI
 		[UIAction("reloadEnergyBars")]
 		public void ReloadEnergyBars() {
 			EnergyLoader.Reload();
+			SetupList();
 			Select(customListTableData.tableView, EnergyLoader.SelectedEnergyBar);
 		}
 
@@ -67,8 +68,8 @@ namespace CustomEnergyBar.Settings.UI
 
 			if (!_previewGo) {
 				_previewGo = new GameObject();
-				_previewGo.transform.position = new Vector3(3.05f, 0.9f, 2.0f);
-				_previewGo.transform.Rotate(0.0f, 60.0f, 0.0f);
+				_previewGo.transform.position = new Vector3(3.25f, 0.9f, 1.7f);
+				_previewGo.transform.Rotate(0.0f, 66.0f, 0.0f);
 				_previewGo.transform.localScale = Vector3.one * 0.25f;
 				_previewGo.name = "EnergyBarPreviewContainer";
 			}

@@ -1,17 +1,17 @@
-Shader "BeatSaber/UI" 
+Shader "BeatSaber/UI Cutout" 
 {
     Properties {
 	    _MainTex("Main Texture", 2D) = "white" {}
         _Color("Color", Color) = (1,1,1,1)
+        _Cutoff("Cutoff", Range(0, 1)) = 0.5
     }
 
     Category {
-        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "PreviewType"="Plane" "CanUseSpriteAtlas" = "True" }
-        Blend SrcAlpha OneMinusSrcAlpha
-        ColorMask RGB
+        Tags { "RenderType"="Opaque" }
         Cull Off
         Lighting Off
         ZWrite Off
+        //ColorMask RGB
 
         SubShader {
             Pass {
@@ -25,6 +25,7 @@ Shader "BeatSaber/UI"
 
                 sampler2D _MainTex;
                 float4 _Color;
+                float _Cutoff;
 
                 struct appdata_t {
                     float4 vertex : POSITION;
@@ -60,7 +61,14 @@ Shader "BeatSaber/UI"
                 {
                     UNITY_SETUP_INSTANCE_ID(i);
 
-                    return _Color * tex2D(_MainTex, i.texcoord) * i.color;
+                    float4 col = tex2D(_MainTex, i.texcoord);
+
+                    if (col.a < _Cutoff)
+                        clip(-1);
+
+                    col.a = 0;
+
+                    return _Color * col * i.color;
                 }
                 ENDCG
             }
