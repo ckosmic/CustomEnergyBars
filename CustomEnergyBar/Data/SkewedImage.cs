@@ -9,6 +9,7 @@ using UnityEngine.UI;
 namespace CustomEnergyBar
 {
 	[DisallowMultipleComponent]
+	[AddComponentMenu("Custom Energy Bars/Skewed Image")]
 	public class SkewedImage : Image
 	{
 		public float skewX = 0;

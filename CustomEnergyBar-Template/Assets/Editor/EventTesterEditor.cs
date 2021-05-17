@@ -59,7 +59,7 @@ namespace CustomEnergyBar
 				eventTester.InvokeOnEnergyChanged(onEnergyChangedValue.floatValue);
 			}
 			EditorGUILayout.EndHorizontal();
-			autoOnEnergyChanged.boolValue = EditorGUILayout.Toggle("Auto-invoke", autoOnEnergyChanged.boolValue);
+			autoOnEnergyChanged.boolValue = EditorGUILayout.Toggle("Auto-Invoke", autoOnEnergyChanged.boolValue);
 			if (EditorGUI.EndChangeCheck() && autoOnEnergyChanged.boolValue) {
 				eventTester.InvokeOnEnergyChanged(onEnergyChangedValue.floatValue);
 				if (onEnergyChangedValue.floatValue > prevEnergy) {
@@ -73,12 +73,20 @@ namespace CustomEnergyBar
 			if (GUILayout.Button("Invoke OnBatteryLivesIncreased()")) {
 				batteryLives.intValue++;
 				eventTester.InvokeOnBatteryLivesIncreased(batteryLives.intValue);
+				onEnergyChangedValue.floatValue = (float)batteryLives.intValue / (float)eventTester._maxBatteryLives;
+				eventTester.InvokeOnEnergyChanged(onEnergyChangedValue.floatValue);
 			}
 			if (GUILayout.Button("Invoke OnBatteryLivesDecreased()")) {
 				batteryLives.intValue--;
 				eventTester.InvokeOnBatteryLivesDecreased(batteryLives.intValue);
+				onEnergyChangedValue.floatValue = (float)batteryLives.intValue / (float)eventTester._maxBatteryLives;
+				eventTester.InvokeOnEnergyChanged(onEnergyChangedValue.floatValue);
 			}
-			EditorGUILayout.LabelField("Battery lives: " + batteryLives.intValue);
+			if (Application.isPlaying) {
+				EditorGUILayout.LabelField("Battery Lives: " + batteryLives.intValue);
+			} else {
+				batteryLives.intValue = EditorGUILayout.IntField("Battery Lives", batteryLives.intValue);
+			}
 
 			serializedObject.ApplyModifiedProperties();
 		}

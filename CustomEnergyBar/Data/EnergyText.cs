@@ -8,15 +8,19 @@ using TMPro;
 
 namespace CustomEnergyBar
 {
+	[RequireComponent(typeof(TextMeshProUGUI))]
+	[AddComponentMenu("Custom Energy Bars/Energy Text")]
 	public class EnergyText : MonoBehaviour
 	{
 		public enum DisplayTypes { 
 			Decimal,
-			Percent
+			Percent,
+			Battery
 		}
 
 		public DisplayTypes displayType;
 		public string formattedString = "Energy: {0}";
+		public int batteryLives = 4;
 
 		private TextMeshProUGUI _tmpro;
 
@@ -31,6 +35,9 @@ namespace CustomEnergyBar
 					break;
 				case DisplayTypes.Percent:
 					energyString = Mathf.Round(energy * 100).ToString() + "%";
+					break;
+				case DisplayTypes.Battery:
+					energyString = Mathf.Round(energy * batteryLives).ToString();
 					break;
 			}
 			_tmpro.text = string.Format(formattedString, energyString);

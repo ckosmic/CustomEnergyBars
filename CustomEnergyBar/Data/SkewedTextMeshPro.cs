@@ -10,7 +10,7 @@ namespace CustomEnergyBar
 {
 	[DisallowMultipleComponent]
 	[ExecuteInEditMode]
-	[AddComponentMenu("Custom Energy Bar/Skewed TextMeshPro")]
+	[AddComponentMenu("Custom Energy Bars/Skewed TextMeshPro")]
 	public class SkewedTextMeshPro : TextMeshProUGUI
 	{
 		public float skewX = 0;

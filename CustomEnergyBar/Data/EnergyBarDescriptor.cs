@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace CustomEnergyBar
 {
+	[AddComponentMenu("Custom Energy Bars/Energy Bar Descriptor")]
 	public class EnergyBarDescriptor : MonoBehaviour
 	{
 		public string name = "MyCustomEnergyBar";

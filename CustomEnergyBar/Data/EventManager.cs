@@ -15,7 +15,7 @@ using IPA.Utilities;
 
 namespace CustomEnergyBar
 {
-	[AddComponentMenu("Custom Energy Bar/Event Manager")]
+	[AddComponentMenu("Custom Energy Bars/Event Manager")]
 	public class EventManager : MonoBehaviour {
 		public UnityEvent OnInit;
 		public UnityEvent OnEnergyReachedZero;

@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace CustomEnergyBar.Data
 {
+	[AddComponentMenu("Custom Energy Bars/Animation Event Handler")]
 	public class AnimationEventHandler : MonoBehaviour
 	{
 		public Animation animation;

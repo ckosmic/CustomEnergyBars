@@ -11,10 +11,12 @@ public class EventTester : MonoBehaviour {
 
 	public bool autoOnEnergyChanged = false;
 
+	public int _maxBatteryLives = 4;
+
 	private void Start() {
-		batteryLives = 4;
+		_maxBatteryLives = batteryLives;
 		InvokeOnInit();
-		InvokeOnEnergyChanged(0.5f);
+		InvokeOnEnergyChanged(onEnergyChangedValue);
 	}
 
 	public void InvokeOnInit() {
