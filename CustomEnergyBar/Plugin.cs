@@ -32,8 +32,6 @@ namespace CustomEnergyBar
 			Log = logger;
 
 			Settings = config.Generated<SettingsStore>();
-
-			Log.Info("CustomEnergyBar initialized.");
 		}
 
 		#region BSIPA Config
@@ -50,7 +48,6 @@ namespace CustomEnergyBar
 
 		[OnStart]
 		public void OnApplicationStart() {
-			Log.Debug("OnApplicationStart");
 			SettingsUI.CreateButton();
 			EnergyBarManager.Load();
 			PreviewEnergyBarManager.Load();
@@ -58,7 +55,7 @@ namespace CustomEnergyBar
 
 		[OnExit]
 		public void OnApplicationQuit() {
-			Log.Debug("OnApplicationQuit");
+			
 		}
 	}
 }

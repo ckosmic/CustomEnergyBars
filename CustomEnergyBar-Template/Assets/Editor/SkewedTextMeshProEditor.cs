@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using TMPro;
 
 namespace CustomEnergyBar
 {
-	[CustomEditor(typeof(SkewedTextMeshPro))]
+	[CustomEditor(typeof(SkewedTextMeshPro), true), CanEditMultipleObjects]
 	public class SkewedTextMeshProEditor : TMPro.EditorUtilities.TMP_UiEditorPanel
 	{
 		SerializedProperty skewX;

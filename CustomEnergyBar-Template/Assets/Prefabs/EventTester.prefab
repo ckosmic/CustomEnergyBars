@@ -53,3 +53,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventManager: {fileID: 0}
   onEnergyChangedValue: 1
+  batteryLives: 4
+  autoOnEnergyChanged: 0
+  _maxBatteryLives: 4

@@ -21,12 +21,8 @@ namespace CustomEnergyBar
 		}
 
 		private void SubscribeToEvents() {
-			Plugin.Log.Info("Subscribing to events...");
-
 			BSEvents.energyDidChange += OnEnergyChangedHandler;
 			BSEvents.energyReachedZero += OnEnergyReachedZeroHandler;
-
-			Plugin.Log.Info("OnEnergyChanged Event Count: " + eventManager.OnEnergyChanged.GetPersistentEventCount());
 		}
 
 		private void UnsubscribeFromEvents() {
@@ -81,8 +77,7 @@ namespace CustomEnergyBar
 		}
 
 		IEnumerator IEEventManagerInitialization() {
-			Plugin.Log.Info("Initializing event manager...");
-			yield return new WaitUntil(() => eventManager != null );
+			yield return new WaitUntil(() => eventManager != null);
 			eventManager.OnInit.Invoke();
 			eventManager.DeserializeEvents();
 			SubscribeToEvents();
