@@ -28,7 +28,7 @@ namespace CustomEnergyBar
 		public UnityEvent[] OnBatteryLivesDecreased;
 
 		#region Serialization
-		// All this just to get a UnityEvent<T> superclass to serialize in asset bundles... took like 3 days to figure out.
+		// All this just to get a UnityEvent<T> subclass to serialize in asset bundles... took like 3 days to figure out.
 
 		[SerializeField, HideInInspector]
 		private string json_onEnergyChanged;

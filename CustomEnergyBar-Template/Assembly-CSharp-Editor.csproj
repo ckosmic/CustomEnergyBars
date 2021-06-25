@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Customs\TestBar2\Editor\CreateAssetBundles.cs" />
      <Compile Include="Assets\Editor\EnergyBarDescriptorEditor.cs" />
      <Compile Include="Assets\Editor\EventTesterEditor.cs" />
      <Compile Include="Assets\Editor\SkewedImageEditor.cs" />
