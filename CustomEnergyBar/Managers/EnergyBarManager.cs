@@ -78,7 +78,11 @@ namespace CustomEnergyBar
 			GameEnergyCounter energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
 			if (originalEnergyUI.gameObject.activeInHierarchy) {
 				GameObject prefab = energyBar.energyBarPrefab;
-				GameObject go = Instantiate(prefab, originalEnergyUI.transform.position, originalEnergyUI.transform.rotation);
+				GameObject go = Instantiate(prefab, originalEnergyUI.transform.position, originalEnergyUI.transform.rotation, originalEnergyUI.transform.parent);
+				if (originalEnergyUI.transform.parent.parent.name == "FlyingGameHUD") {
+					// 360 and 90 degree levels need the bar to be scaled up
+					go.transform.localScale *= 50;
+				}
 				AddManagers(go);
 				EnergyBarDescriptor descriptor = go.GetComponent<EnergyBarDescriptor>();
 				switch (energyCounter.energyType) {
@@ -94,6 +98,9 @@ namespace CustomEnergyBar
 				}
 				foreach (ImageView iv in originalEnergyUI.GetComponentsInChildren<ImageView>()) {
 					iv.enabled = false;
+				}
+				foreach (Canvas ca in originalEnergyUI.GetComponentsInChildren<Canvas>()) {
+					ca.enabled = false;
 				}
 			}
 		}
