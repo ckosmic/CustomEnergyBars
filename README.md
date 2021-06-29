@@ -12,10 +12,7 @@ To install custom energy bars, place a `.energy` file into the CustomEnergyBars 
 Refer to the [wiki](https://github.com/ckosmic/CustomEnergyBars/wiki) to learn how to make a custom energy bar.
 
 ## Example bars
-* [Example Bar.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Example%20Bar.energy)
-* [Simple Bar.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Simple%20Bar.energy)
-* [Kingdom Hearts.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Kingdom%20Hearts.energy)
-* [Default+.energy](https://raw.githubusercontent.com/ckosmic/CustomEnergyBars/master/Resources/ExampleBars/Default%2B.energy)
+* [Energy bars made by me](https://github.com/ckosmic/CustomEnergyBars/tree/master/Resources/ExampleBars)
 * Check out more under #other-files and #mod-assets in BSMG and also over at [Bobbie's website](https://bobbie.dev/misc)!
 
 ## For developers
