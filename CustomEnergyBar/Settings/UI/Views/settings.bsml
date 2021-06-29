@@ -1,8 +1,29 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
-	<settings-container>
+	<vertical>
+		
 		<horizontal bg='panel-top' pad-left='10' pad-right='10' horizontal-fit='PreferredSize'>
 			<text text='Settings' align='Center' font-size='10' italics='true' />
 		</horizontal>
-		<bool-setting text='Allow Sound Effects' apply-on-change='true' value='allow-sfx' hover-hint='Allows sound effects to be played from the custom energy bar.' />
-	</settings-container>
+
+		<horizontal child-expand-height='false'>
+			<vertical preferred-width='27' child-expand-height='false' vertical-fit='MinSize'>
+				<button text='GitHub' horizontal-fit='Unconstrained' on-click='openGitHubRepo' hover-hint='Download example bars and report issues!' />
+				<button text='Wiki' on-click='openWiki' horizontal-fit='Unconstrained' pad-top='8' hover-hint='Find out how to make your own custom energy bars!' />
+				
+				<horizontal pad-top='20'>
+					<text text='~version' align='Center' font-size='4' italics='true'></text>
+				</horizontal>
+				<horizontal pad-top='5'>
+					<text text='Checking...' id='update-message' align='Center' font-size='3' italics='true' font-color='#AAA'></text>
+				</horizontal>
+				<button text='Update' id='update-button' on-click='openReleases' horizontal-fit='Unconstrained' pad-top='7' hover-hint='Opens the latest release page.' interactable='false' />
+			</vertical>
+			<vertical preferred-width='80'>
+				<settings-container>
+					<bool-setting text='Allow Sound Effects' apply-on-change='true' value='allow-sfx' preferred-width='60' hover-hint='Allows sound effects to be played from the custom energy bar.' />
+				</settings-container>
+			</vertical>
+		</horizontal>
+		
+	</vertical>
 </bg>

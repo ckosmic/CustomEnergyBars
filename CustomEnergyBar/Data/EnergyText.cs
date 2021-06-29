@@ -15,6 +15,7 @@ namespace CustomEnergyBar
 		public enum DisplayTypes { 
 			Decimal,
 			Percent,
+			PercentNoSymbol,
 			Battery
 		}
 
@@ -35,6 +36,9 @@ namespace CustomEnergyBar
 					break;
 				case DisplayTypes.Percent:
 					energyString = Mathf.Round(energy * 100).ToString() + "%";
+					break;
+				case DisplayTypes.PercentNoSymbol:
+					energyString = Mathf.Round(energy * 100).ToString();
 					break;
 				case DisplayTypes.Battery:
 					energyString = Mathf.Round(energy * batteryLives).ToString();
