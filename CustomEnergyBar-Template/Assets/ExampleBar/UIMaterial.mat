@@ -63,7 +63,7 @@ Material:
     - _Ambient: 0
     - _Bloom: 0
     - _BumpScale: 1
-    - _ColorMask: 15
+    - _ColorMask: 14
     - _CustomColors: 0
     - _Cutoff: 0.5
     - _Cutout: 0.5

@@ -11,7 +11,6 @@ Shader "BeatSaber/UI Cutout"
         Cull Off
         Lighting Off
         ZWrite Off
-        //ColorMask RGB
 
         SubShader {
             Pass {
