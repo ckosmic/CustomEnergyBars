@@ -3,13 +3,13 @@
   "id": "Custom Energy Bars",
   "name": "CustomEnergyBar",
   "author": "ckosmic",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "icon": "CustomEnergyBar.Resources.icon.png",
   "description": "Customize your energy bar!",
   "gameVersion": "1.16.3",
   "dependsOn": {
     "BSIPA": "^4.2.0",
-    "BeatSaberMarkupLanguage": "^1.5.4",
+    "BeatSaberMarkupLanguage": "^1.5.5",
     "BS Utils": "^1.11.0"
   },
   "links": {
