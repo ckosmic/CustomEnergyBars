@@ -1,15 +1,6 @@
-﻿using CustomEnergyBar.Utils;
-using CustomEnergyBar.API;
+﻿using CustomEnergyBar.API;
 using HMUI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Audio;
-using SiraUtil.Logging;
 using Zenject;
 
 namespace CustomEnergyBar
