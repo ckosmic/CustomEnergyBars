@@ -11,12 +11,14 @@ namespace CustomEnergyBar.Settings.UI
 		private EnergyBarListViewController _energyBarListViewController;
 		private EnergyBarPreviewViewController _energyBarPreviewViewController;
 		private SettingsViewController _settingsViewController;
+		private EnergyLoader _energyLoader;
 
 		[Inject]
-		internal void Construct(EnergyBarListViewController energyBarListViewController, EnergyBarPreviewViewController energyBarPreviewViewController, SettingsViewController settingsViewController) {
+		internal void Construct(EnergyBarListViewController energyBarListViewController, EnergyBarPreviewViewController energyBarPreviewViewController, SettingsViewController settingsViewController, EnergyLoader energyLoader) {
 			_energyBarListViewController = energyBarListViewController;
 			_energyBarPreviewViewController = energyBarPreviewViewController;
 			_settingsViewController = settingsViewController;
+			_energyLoader = energyLoader;
 
 			_settingsViewController.energyBarListController = _energyBarListViewController;
 			_energyBarListViewController.energyBarPreviewViewController = _energyBarPreviewViewController;
@@ -25,6 +27,8 @@ namespace CustomEnergyBar.Settings.UI
 		protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling) {
 			try {
 				if (firstActivation) {
+					_energyLoader.Load();
+
 					SetTitle("Custom Energy Bars", ViewController.AnimationType.In);
 					showBackButton = true;
 

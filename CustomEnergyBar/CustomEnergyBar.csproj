@@ -9,6 +9,7 @@
 	<BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
 	<AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
 	<DebugType>portable</DebugType>
+	<DefineConstants>PLUGIN</DefineConstants>
   </PropertyGroup>
 	
   <ItemGroup>

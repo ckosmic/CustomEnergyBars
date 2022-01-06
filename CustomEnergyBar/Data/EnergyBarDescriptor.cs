@@ -20,12 +20,7 @@ namespace CustomEnergyBar
 		public List<GameObject> batteryBars;
 
 		public GameObject GetBatteryBar(int batteryLives) {
-			for (int i = 0; i < batteryBars.Count; i++) {
-				if (batteryBars[i].name == batteryLives.ToString() + "LifeBar") {
-					return batteryBars[i];
-				}
-			}
-			return null;
+			return batteryBars.Find(bb => bb.name == batteryLives.ToString() + "LifeBar");
 		}
 	}
 }

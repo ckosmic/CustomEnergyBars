@@ -9,16 +9,19 @@ namespace CustomEnergyBar
 
 		private readonly GameEnergyCounter _gameEnergyCounter;
 		private readonly GameEnergyUIPanel _gameEnergyUIPanel;
+		private readonly EnergyLoader _energyLoader;
 
-		public EnergyBarManager(GameEnergyCounter gameEnergyCounter, GameEnergyUIPanel gameEnergyUIPanel) {
+		public EnergyBarManager(GameEnergyCounter gameEnergyCounter, GameEnergyUIPanel gameEnergyUIPanel, EnergyLoader energyLoader) {
 			_gameEnergyCounter = gameEnergyCounter;
 			_gameEnergyUIPanel = gameEnergyUIPanel;
+			_energyLoader = energyLoader;
 		}
 
 		public void Initialize() {
 			if (Plugin.Settings.Selected != "defaultEnergyBar") {
-				EnergyBar energyBar = (CEBAPI.overrideBar != null) ? CEBAPI.overrideBar : EnergyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
-				InstantiateEnergyBar(energyBar);
+				_energyLoader.Load();
+				EnergyBar energyBar = (CEBAPI.overrideBar != null) ? CEBAPI.overrideBar : _energyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
+				_gameEnergyCounter.didInitEvent += delegate () { InstantiateEnergyBar(energyBar); };
 			}
 		}
 

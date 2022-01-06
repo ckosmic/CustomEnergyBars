@@ -79,15 +79,19 @@ namespace CustomEnergyBar
 				if (energy > _previousEnergy) {
 					if (onBatteryLivesIncreased.Length > 0) {
 						int eventIndex = Mathf.CeilToInt(energy * onBatteryLivesIncreased.Length);
-						for (int i = 0; i < eventIndex; i++) {
-							onBatteryLivesIncreased[i-1]?.Invoke();
+						if(eventIndex < onBatteryLivesIncreased.Length) { 
+							for (int i = 0; i < eventIndex; i++) {
+								onBatteryLivesIncreased[i]?.Invoke();
+							}
 						}
 					}
 				} else if (energy < _previousEnergy) {
 					if (onBatteryLivesDecreased.Length > 0) {
 						int eventIndex = Mathf.CeilToInt(energy * onBatteryLivesDecreased.Length);
-						for (int i = eventIndex; i < onBatteryLivesDecreased.Length; i++) {
-							onBatteryLivesDecreased[i]?.Invoke();
+						if (eventIndex < onBatteryLivesDecreased.Length) { 
+							for (int i = eventIndex; i < onBatteryLivesDecreased.Length; i++) {
+								onBatteryLivesDecreased[i]?.Invoke();
+							}
 						}
 					}
 				}
