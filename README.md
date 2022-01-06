@@ -2,7 +2,7 @@
 A Beat Saber mod that adds custom energy bars to the game.
 
 ## Installation
-* Install BS Utils and BSML via ModAssistant or manually
+* Install SiraUtil and BSML via ModAssistant or manually
 * Download the [latest release](https://github.com/ckosmic/CustomEnergyBars/releases/latest) from the releases page
 * Drop the file into the Plugins folder in your Beat Saber directory
 

@@ -10,7 +10,6 @@
   "dependsOn": {
     "BSIPA": "^4.2.1",
     "BeatSaberMarkupLanguage": "^1.6.0",
-    "BS Utils": "^1.11.1",
     "SiraUtil": "^3.0.0"
   },
   "links": {
