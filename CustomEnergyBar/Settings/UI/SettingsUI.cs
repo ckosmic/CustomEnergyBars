@@ -1,36 +1,41 @@
 ﻿using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.MenuButtons;
-using HMUI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Zenject;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class SettingsUI
+	internal class SettingsUI : IInitializable, IDisposable
 	{
+		private readonly CEBFlowCoordinator _flowCoordinator;
+
+		private MenuButton _menuButton;
+
 		public static bool buttonCreated = false;
-		public static SettingsFlowCoordinator flowCoordinator;
 
-		public static void CreateButton() {
-			if (!buttonCreated) {
-				MenuButton menuButton = new MenuButton("Custom Energy Bars", "Choose custom energy bars here!", new Action(OnMenuButtonWasPressed), true);
-				PersistentSingleton<MenuButtons>.instance.RegisterButton(menuButton);
-				buttonCreated = true;
-			}
+		public SettingsUI(CEBFlowCoordinator flowCoordinator) {
+			_flowCoordinator = flowCoordinator;
+
+			_menuButton = new MenuButton("Custom Energy Bars", "Choose custom energy bars here!", OnMenuButtonWasPressed, true);
+			
 		}
 
-		public static void CreateFlowCoordinator() {
-			if (flowCoordinator == null) {
-				flowCoordinator = BeatSaberUI.CreateFlowCoordinator<SettingsFlowCoordinator>();
-			}
-			BeatSaberUI.MainFlowCoordinator.PresentFlowCoordinator(flowCoordinator, null, ViewController.AnimationDirection.Horizontal, false, false);
+		public void Initialize() {
+			PersistentSingleton<MenuButtons>.instance.RegisterButton(_menuButton);
+			buttonCreated = true;
 		}
 
-		private static void OnMenuButtonWasPressed() {
-			CreateFlowCoordinator();
+		public void Dispose() {
+			if (_menuButton == null) return;
+			if (MenuButtons.IsSingletonAvailable && BSMLParser.IsSingletonAvailable) {
+				PersistentSingleton<MenuButtons>.instance.UnregisterButton(_menuButton);
+			}
+			_menuButton = null;
+		}
+
+		private void OnMenuButtonWasPressed() {
+			if (_flowCoordinator == null) return;
+			BeatSaberUI.MainFlowCoordinator.PresentFlowCoordinator(_flowCoordinator);
 		}
 
 	}

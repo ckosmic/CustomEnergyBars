@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HMUI;
+﻿using HMUI;
 using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Attributes;
 using UnityEngine;
 using TMPro;
+using Zenject;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class EnergyBarListViewController : BSMLResourceViewController
+	[HotReload(RelativePathToLayout = @"Views\energyBarList.bsml")]
+	[ViewDefinition("CustomEnergyBar.Settings.UI.Views.energyBarList.bsml")]
+	internal class EnergyBarListViewController : BSMLAutomaticViewController
 	{
-		public override string ResourceName => "CustomEnergyBar.Settings.UI.Views.energyBarList.bsml";
+		private PreviewEnergyBarManager _previewEnergyBarManager;
+		private EnergyLoader _energyLoader;
 
 		private bool _isGeneratingPreview = false;
 		internal GameObject _previewGo;
@@ -29,10 +28,16 @@ namespace CustomEnergyBar.Settings.UI
 
 		public EnergyBarPreviewViewController energyBarPreviewViewController;
 
+		[Inject]
+		internal void Construct(PreviewEnergyBarManager previewEnergyBarManager, EnergyLoader energyLoader) {
+			_previewEnergyBarManager = previewEnergyBarManager;
+			_energyLoader = energyLoader;
+		}
+
 		[UIAction("energyBarSelect")]
 		public void Select(TableView view, int row) {
-			EnergyLoader.SelectedEnergyBar = row;
-			EnergyBarDescriptor descriptor = EnergyLoader.CustomEnergyBars[row].descriptor;
+			_energyLoader.SelectedEnergyBar = row;
+			EnergyBarDescriptor descriptor = _energyLoader.CustomEnergyBars[row].descriptor;
 			Plugin.Settings.Selected = descriptor.bundleId;
 			if (!string.IsNullOrWhiteSpace(descriptor.description)) {
 				description.text = descriptor.description;
@@ -42,22 +47,22 @@ namespace CustomEnergyBar.Settings.UI
 
 		[UIAction("reloadEnergyBars")]
 		public void ReloadEnergyBars() {
-			EnergyLoader.Reload();
+			_energyLoader.Reload();
 			SetupList();
-			Select(customListTableData.tableView, EnergyLoader.SelectedEnergyBar);
+			Select(customListTableData.tableView, _energyLoader.SelectedEnergyBar);
 		}
 
 		[UIAction("#post-parse")]
 		public void SetupList() {
 			customListTableData.data.Clear();
 
-			foreach (EnergyBar energyBar in EnergyLoader.CustomEnergyBars) {
+			foreach (EnergyBar energyBar in _energyLoader.CustomEnergyBars) {
 				CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(energyBar.descriptor.name, energyBar.descriptor.author, energyBar.descriptor.icon);
 				customListTableData.data.Add(customCellInfo);
 			}
 
 			customListTableData.tableView.ReloadData();
-			int selectedEnergyBar = EnergyLoader.SelectedEnergyBar;
+			int selectedEnergyBar = _energyLoader.SelectedEnergyBar;
 
 			customListTableData.tableView.ScrollToCellWithIdx(selectedEnergyBar, TableView.ScrollPositionType.Beginning, false);
 			customListTableData.tableView.SelectCellWithIdx(selectedEnergyBar);
@@ -74,7 +79,7 @@ namespace CustomEnergyBar.Settings.UI
 				_previewGo.name = "EnergyBarPreviewContainer";
 			}
 
-			int selectedEnergyBar = EnergyLoader.SelectedEnergyBar;
+			int selectedEnergyBar = _energyLoader.SelectedEnergyBar;
 			customListTableData.tableView.SelectCellWithIdx(selectedEnergyBar);
 			Select(customListTableData.tableView, selectedEnergyBar);
 		}
@@ -90,7 +95,7 @@ namespace CustomEnergyBar.Settings.UI
 
 				ClearEnergyBar();
 
-				EnergyBar energyBar = EnergyLoader.CustomEnergyBars[selected];
+				EnergyBar energyBar = _energyLoader.CustomEnergyBars[selected];
 				if (energyBar.descriptor.bundleId == "defaultEnergyBar") {
 					energyBarPreviewViewController.ShowMessage("No preview available");
 				} else {
@@ -98,7 +103,7 @@ namespace CustomEnergyBar.Settings.UI
 					if (energyBar != null && prefab != null) {
 						GameObject go = Instantiate(prefab, _previewGo.transform.position, _previewGo.transform.rotation);
 						go.transform.SetParent(_previewGo.transform);
-						PreviewEnergyBarManager.Instance.StartSimulation(go);
+						_previewEnergyBarManager.StartSimulation(go);
 					}
 					energyBarPreviewViewController.ShowMessage("");
 				}
@@ -107,7 +112,7 @@ namespace CustomEnergyBar.Settings.UI
 		}
 
 		internal void ClearEnergyBar() {
-			PreviewEnergyBarManager.Instance?.StopSimulation();
+			_previewEnergyBarManager?.StopSimulation();
 			foreach (Transform child in _previewGo.transform) {
 				Destroy(child.gameObject);
 			}

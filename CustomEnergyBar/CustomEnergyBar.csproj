@@ -1,45 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DA33243A-E258-42DB-AC8C-C2C35C29C32B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CustomEnergyBar</RootNamespace>
-    <AssemblyName>CustomEnergyBar</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
-    <BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
-    <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
-    <!--<PathMap>$(AppOutputBase)=X:\$(AssemblyName)\</PathMap>-->
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
+	<TargetFramework>net472</TargetFramework>
+	<OutputType>Library</OutputType>
+	<LangVersion>9</LangVersion>
+	<Nullable>disable</Nullable>
+	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+	<LocalRefsDir Condition="Exists('..\Refs')">..\Refs</LocalRefsDir>
+	<BeatSaberDir>$(LocalRefsDir)</BeatSaberDir>
+	<AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+	<DebugType>portable</DebugType>
+	<DefineConstants>PLUGIN</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\..\Program Files %28x86%29\Steam\steamapps\common\Beat Saber\Plugins\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PLUGIN</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(DefineConstants.Contains('CIBuild')) OR '$(NCrunch)' == '1'">
-    <DisableCopyToPlugins>True</DisableCopyToPlugins>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(NCrunch)' == '1'">
-    <DisableCopyToPlugins>True</DisableCopyToPlugins>
-    <DisableZipRelease>True</DisableZipRelease>
-  </PropertyGroup>
+	
   <ItemGroup>
     <Reference Include="BeatmapCore">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\BeatmapCore.dll</HintPath>
@@ -47,14 +19,15 @@
     <Reference Include="BSML">
       <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
     </Reference>
-    <Reference Include="BS_Utils">
-      <HintPath>$(BeatSaberDir)\Plugins\BS_Utils.dll</HintPath>
-    </Reference>
     <Reference Include="GameplayCore">
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\GameplayCore.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(BeatSaberDir)\Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SiraUtil, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(BeatSaberDir)\Plugins\SiraUtil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -131,65 +104,26 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Zenject, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject-usage, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="API\CEBAPI.cs" />
-    <Compile Include="Data\AnimationEventHandler.cs" />
-    <Compile Include="Data\AnimatorEventHandler.cs" />
-    <Compile Include="Data\EnergyText.cs" />
-    <Compile Include="Data\EventManager.cs" />
-    <Compile Include="Data\EventValueHandler.cs" />
-    <Compile Include="Data\MaterialEventHandler.cs" />
-    <Compile Include="Data\SkewedImage.cs" />
-    <Compile Include="Data\SkewedTextMeshPro.cs" />
-    <Compile Include="EnergyBar.cs" />
-    <Compile Include="Data\EnergyBarDescriptor.cs" />
-    <Compile Include="Managers\EnergyBarManager.cs" />
-    <Compile Include="Managers\EnergyEventManager.cs" />
-    <Compile Include="EnergyLoader.cs" />
-    <Compile Include="Managers\PreviewEnergyBarManager.cs" />
-    <Compile Include="Plugin.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\SettingsStore.cs" />
-    <Compile Include="Settings\UI\EnergyBarListViewController.cs" />
-    <Compile Include="Settings\UI\EnergyBarPreviewViewController.cs" />
-    <Compile Include="Settings\UI\SettingsFlowCoordinator.cs" />
-    <Compile Include="Settings\UI\SettingsUI.cs" />
-    <Compile Include="Settings\UI\SettingsViewController.cs" />
-    <Compile Include="Utils\Extensions.cs" />
-    <Compile Include="Utils\ResourceUtilities.cs" />
-    <Compile Include="Utils\UpdateChecker.cs" />
-  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="manifest.json" />
+    <EmbeddedResource Include="Settings\UI\Views\*.bsml" />
+    <EmbeddedResource Include="Resources\*.png" />
   </ItemGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="Settings\UI\Views\energyBarPreview.bsml" />
+	<PackageReference Include="BeatSaberModdingTools.Tasks" Version="2.0.0-beta4">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Settings\UI\Views\energyBarList.bsml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Settings\UI\Views\settings.bsml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\icon.png" />
-  </ItemGroup>
-  <!--<ItemGroup>
-    <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
-    <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
-    <None Include="CustomEnergyBar.csproj.user" Condition="Exists('CustomEnergyBar.csproj.user')" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="BeatSaberModdingTools.Tasks">
-      <Version>1.2.3</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>-->
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>

@@ -2,13 +2,10 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Linq;
 #if UNITY
 using UnityEditor;
 #endif
 using Object = UnityEngine.Object;
-using CustomEnergyBar.Utils;
-using System.Collections.Generic;
 #if PLUGIN
 using IPA.Utilities;
 #endif
