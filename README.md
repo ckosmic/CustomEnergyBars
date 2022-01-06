@@ -17,14 +17,26 @@ Refer to the [wiki](https://github.com/ckosmic/CustomEnergyBars/wiki) to learn h
 
 ## For developers
 ### Contributing to CustomEnergyBars (info taken from [CustomSabers](https://github.com/nalulululuna/CustomSaberPlugin))
-In order to build this project, please create the file CustomEnergyBar.csproj.user and add your Beat Saber directory path to it in the project directory. This file should not be uploaded to GitHub and is in the .gitignore.
+In order to build this project, please create the file CustomEnergyBar.csproj.user in the project directory and add your Beat Saber directory path to it. This file should not be uploaded to GitHub and is in the .gitignore.
 
 ```xml 
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <!-- Set "YOUR OWN" Beat Saber folder here to resolve most of the dependency paths! -->
-    <BeatSaberDir>E:\Program Files (x86)\Steam\steamapps\common\Beat Saber</BeatSaberDir>
+    <BeatSaberDir>D:\Program Files (x86)\Steam\steamapps\common\Beat Saber</BeatSaberDir>
+  </PropertyGroup>
+</Project>
+```
+
+To build the Unity plugin, make sure your CustomEnergyBarUnityPlugin.csproj.user contains a definition for `UnityEditorDir`.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BeatSaberDir>D:\Program Files (x86)\Steam\steamapps\common\Beat Saber</BeatSaberDir>
+	<UnityEditorDir>D:\Program Files\Unity Editors\2018.1.6f1\Editor</UnityEditorDir>
   </PropertyGroup>
 </Project>
 ```
