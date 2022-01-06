@@ -1,34 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace CustomEnergyBar
 {
-	internal class PreviewEnergyBarManager : MonoBehaviour
+	internal class PreviewEnergyBarManager
 	{
-		public static PreviewEnergyBarManager Instance;
-
-		private bool _isSimulating = false;
 		private float _simulatedEnergy = 0.5f;
 		private float _previousEnergy = 0.5f;
-		private Coroutine _simCoroutine;
-
-		public static void Load() {
-			if (Instance != null) return;
-			GameObject go = new GameObject("Preview Energy Bar Manager");
-			go.AddComponent<PreviewEnergyBarManager>();
-		}
-
-		private void Awake() {
-			if (Instance != null) return;
-			Instance = this;
-			DontDestroyOnLoad(gameObject);
-		}
+		private BackgroundWorker _simWorker;
 
 		public void StartSimulation(GameObject energyGo) {
 			if (energyGo.GetComponentInChildren<EventManager>(true) != null) {
@@ -38,17 +25,20 @@ namespace CustomEnergyBar
 			}
 			if (Plugin.Settings.AllowSFX == false && energyGo.GetComponentInChildren<AudioSource>(true) != null) {
 				foreach (AudioSource audio in energyGo.GetComponentsInChildren<AudioSource>()) {
-					Destroy(audio);
+					UnityEngine.Object.Destroy(audio);
 				}
 			}
 
-			_simCoroutine = StartCoroutine(IEPreviewEnergySimulation(energyGo));
+			StopSimulation();
+			_simWorker = new BackgroundWorker();
+			_simWorker.DoWork += PreviewEnergySimulation;
+			_simWorker.WorkerSupportsCancellation = true;
+			_simWorker.RunWorkerAsync(argument: energyGo);
 		}
 
 		public void StopSimulation() {
-			_isSimulating = false;
-			if (_simCoroutine != null) {
-				StopCoroutine(_simCoroutine);
+			if (_simWorker != null) {
+				_simWorker.CancelAsync();
 			}
 			_simulatedEnergy = 0.5f;
 			_previousEnergy = 0.5f;
@@ -87,27 +77,50 @@ namespace CustomEnergyBar
 			}
 		}
 
-		IEnumerator IEPreviewEnergySimulation(GameObject energyGo) {
-			_isSimulating = true;
-
+		private void PreviewEnergySimulation(object sender, DoWorkEventArgs args) { 
+			GameObject energyGo = args.Argument as GameObject;
 			EventManager[] eventManagers = energyGo.GetComponentsInChildren<EventManager>();
+			BackgroundWorker worker = sender as BackgroundWorker;
 
 			InvokeEvent(eventManagers, "OnInit");
-			while (_isSimulating) {
+
+			while (true) {
 				_simulatedEnergy = 0.5f;
 				_previousEnergy = 0.5f;
 				InvokeAll(eventManagers, _simulatedEnergy);
 
-				yield return new WaitForSecondsRealtime(0.5f);
+				if (worker.CancellationPending) {
+					args.Cancel = true;
+					break;
+				} else {
+					Thread.Sleep(500);
+				}
+				
 				for (int i = 0; i < 4; i++) {
 					_simulatedEnergy -= 0.1f;
 					InvokeAll(eventManagers, _simulatedEnergy);
-					yield return new WaitForSecondsRealtime(0.5f);
+					if (worker.CancellationPending) {
+						break;
+					} else {
+						Thread.Sleep(500);
+					}
+				}
+				if (worker.CancellationPending) {
+					args.Cancel = true;
+					break;
 				}
 				for (int i = 0; i < 16; i++) {
 					_simulatedEnergy += 0.05f;
 					InvokeAll(eventManagers, _simulatedEnergy);
-					yield return new WaitForSecondsRealtime(UnityEngine.Random.Range(0.1f, 0.25f));
+					if (worker.CancellationPending) {
+						break;
+					} else {
+						Thread.Sleep(150);
+					}
+				}
+				if (worker.CancellationPending) {
+					args.Cancel = true;
+					break;
 				}
 			}
 		}

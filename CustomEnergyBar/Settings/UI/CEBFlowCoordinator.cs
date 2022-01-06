@@ -5,26 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HMUI;
+using Zenject;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class SettingsFlowCoordinator : FlowCoordinator
+	internal class CEBFlowCoordinator : FlowCoordinator
 	{
 
 		private EnergyBarListViewController _energyBarListViewController;
 		private EnergyBarPreviewViewController _energyBarPreviewViewController;
 		private SettingsViewController _settingsViewController;
 
-		public void Awake() {
-			if (!_energyBarListViewController) {
-				_energyBarListViewController = BeatSaberUI.CreateViewController<EnergyBarListViewController>();
-			}
-			if (!_energyBarPreviewViewController) {
-				_energyBarPreviewViewController = BeatSaberUI.CreateViewController<EnergyBarPreviewViewController>();
-			}
-			if (!_settingsViewController) {
-				_settingsViewController = BeatSaberUI.CreateViewController<SettingsViewController>();
-			}
+		[Inject]
+		internal void Construct(EnergyBarListViewController energyBarListViewController, EnergyBarPreviewViewController energyBarPreviewViewController, SettingsViewController settingsViewController) {
+			_energyBarListViewController = energyBarListViewController;
+			_energyBarPreviewViewController = energyBarPreviewViewController;
+			_settingsViewController = settingsViewController;
+
 			_settingsViewController.energyBarListController = _energyBarListViewController;
 			_energyBarListViewController.energyBarPreviewViewController = _energyBarPreviewViewController;
 		}

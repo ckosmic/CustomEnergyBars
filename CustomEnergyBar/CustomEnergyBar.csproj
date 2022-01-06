@@ -56,6 +56,10 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(BeatSaberDir)\Libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SiraUtil, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Steam\steamapps\common\Beat Saber\Plugins\SiraUtil.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -131,6 +135,14 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Zenject, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\Zenject.dll</HintPath>
+    </Reference>
+    <Reference Include="Zenject-usage, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Steam\steamapps\common\Beat Saber\Beat Saber_Data\Managed\Zenject-usage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\CEBAPI.cs" />
@@ -144,6 +156,8 @@
     <Compile Include="Data\SkewedTextMeshPro.cs" />
     <Compile Include="EnergyBar.cs" />
     <Compile Include="Data\EnergyBarDescriptor.cs" />
+    <Compile Include="Installers\CEBGameInstaller.cs" />
+    <Compile Include="Installers\CEBMenuInstaller.cs" />
     <Compile Include="Managers\EnergyBarManager.cs" />
     <Compile Include="Managers\EnergyEventManager.cs" />
     <Compile Include="EnergyLoader.cs" />
@@ -153,7 +167,7 @@
     <Compile Include="Settings\SettingsStore.cs" />
     <Compile Include="Settings\UI\EnergyBarListViewController.cs" />
     <Compile Include="Settings\UI\EnergyBarPreviewViewController.cs" />
-    <Compile Include="Settings\UI\SettingsFlowCoordinator.cs" />
+    <Compile Include="Settings\UI\CEBFlowCoordinator.cs" />
     <Compile Include="Settings\UI\SettingsUI.cs" />
     <Compile Include="Settings\UI\SettingsViewController.cs" />
     <Compile Include="Utils\Extensions.cs" />

@@ -15,10 +15,10 @@ using UnityEngine.UI;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class SettingsViewController : BSMLResourceViewController
+	[HotReload(RelativePathToLayout = @"Views\settings.bsml")]
+	[ViewDefinition("CustomEnergyBar.Settings.UI.Views.settings.bsml")]
+	internal class SettingsViewController : BSMLAutomaticViewController
 	{
-		public override string ResourceName => "CustomEnergyBar.Settings.UI.Views.settings.bsml";
-
 		public EnergyBarListViewController energyBarListController;
 
 		private readonly string version = $"{ Assembly.GetExecutingAssembly().GetName().Version.ToString(3) }";

@@ -26,8 +26,8 @@ namespace CustomEnergyBar
 		private TextMeshProUGUI _tmpro;
 
 		public void UpdateEnergyText(float energy) {
-			if(_tmpro == null) 
-				_tmpro = GetComponent<TextMeshProUGUI>();
+			if (_tmpro == null)
+				if (!TryGetComponent<TextMeshProUGUI>(out _tmpro)) return;
 
 			string energyString = energy.ToString();
 			switch (displayType) {

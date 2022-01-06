@@ -9,10 +9,10 @@ using TMPro;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class EnergyBarPreviewViewController : BSMLResourceViewController
+	[HotReload(RelativePathToLayout = @"Views\energyBarPreview.bsml")]
+	[ViewDefinition("CustomEnergyBar.Settings.UI.Views.energyBarPreview.bsml")]
+	internal class EnergyBarPreviewViewController : BSMLAutomaticViewController
 	{
-		public override string ResourceName => "CustomEnergyBar.Settings.UI.Views.energyBarPreview.bsml";
-
 		[UIComponent("message-text")]
 		public TextMeshProUGUI messageText;
 

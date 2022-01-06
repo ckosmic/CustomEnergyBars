@@ -9,12 +9,15 @@ using BeatSaberMarkupLanguage.Components;
 using BeatSaberMarkupLanguage.Attributes;
 using UnityEngine;
 using TMPro;
+using Zenject;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class EnergyBarListViewController : BSMLResourceViewController
+	[HotReload(RelativePathToLayout = @"Views\energyBarList.bsml")]
+	[ViewDefinition("CustomEnergyBar.Settings.UI.Views.energyBarList.bsml")]
+	internal class EnergyBarListViewController : BSMLAutomaticViewController
 	{
-		public override string ResourceName => "CustomEnergyBar.Settings.UI.Views.energyBarList.bsml";
+		private PreviewEnergyBarManager _previewEnergyBarManager;
 
 		private bool _isGeneratingPreview = false;
 		internal GameObject _previewGo;
@@ -28,6 +31,11 @@ namespace CustomEnergyBar.Settings.UI
 		public string descriptionText = "No description provided";
 
 		public EnergyBarPreviewViewController energyBarPreviewViewController;
+
+		[Inject]
+		internal void Construct(PreviewEnergyBarManager previewEnergyBarManager) {
+			_previewEnergyBarManager = previewEnergyBarManager;
+		}
 
 		[UIAction("energyBarSelect")]
 		public void Select(TableView view, int row) {
@@ -98,7 +106,7 @@ namespace CustomEnergyBar.Settings.UI
 					if (energyBar != null && prefab != null) {
 						GameObject go = Instantiate(prefab, _previewGo.transform.position, _previewGo.transform.rotation);
 						go.transform.SetParent(_previewGo.transform);
-						PreviewEnergyBarManager.Instance.StartSimulation(go);
+						_previewEnergyBarManager.StartSimulation(go);
 					}
 					energyBarPreviewViewController.ShowMessage("");
 				}
@@ -107,7 +115,7 @@ namespace CustomEnergyBar.Settings.UI
 		}
 
 		internal void ClearEnergyBar() {
-			PreviewEnergyBarManager.Instance?.StopSimulation();
+			_previewEnergyBarManager?.StopSimulation();
 			foreach (Transform child in _previewGo.transform) {
 				Destroy(child.gameObject);
 			}
