@@ -1,45 +1,27 @@
-﻿using CustomEnergyBar.Utils;
-using CustomEnergyBar.API;
+﻿using CustomEnergyBar.API;
 using HMUI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Audio;
+using Zenject;
 
 namespace CustomEnergyBar
 {
-	internal class EnergyBarManager : MonoBehaviour {
-		public static EnergyBarManager Instance;
+	internal class EnergyBarManager : IInitializable {
 
-		public static void Load() {
-			if (Instance != null) return;
-			GameObject go = new GameObject("Energy Bar Manager");
-			go.AddComponent<EnergyBarManager>();
+		private readonly GameEnergyCounter _gameEnergyCounter;
+		private readonly GameEnergyUIPanel _gameEnergyUIPanel;
+		private readonly EnergyLoader _energyLoader;
+
+		public EnergyBarManager(GameEnergyCounter gameEnergyCounter, GameEnergyUIPanel gameEnergyUIPanel, EnergyLoader energyLoader) {
+			_gameEnergyCounter = gameEnergyCounter;
+			_gameEnergyUIPanel = gameEnergyUIPanel;
+			_energyLoader = energyLoader;
 		}
 
-		private void Awake() {
-			if (Instance != null) return;
-			Instance = this;
-			DontDestroyOnLoad(gameObject);
-		}
-
-		private void OnEnable() {
-			EnergyLoader.Load();
-			AddBSEvents();
-		}
-
-		private void OnDisable() {
-			RemoveBSEvents();
-		}
-
-		private void OnGameSceneLoaded() {
+		public void Initialize() {
 			if (Plugin.Settings.Selected != "defaultEnergyBar") {
-				EnergyBar energyBar = (CEBAPI.overrideBar != null) ? CEBAPI.overrideBar : EnergyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
-				InstantiateEnergyBar(energyBar);
+				_energyLoader.Load();
+				EnergyBar energyBar = (CEBAPI.overrideBar != null) ? CEBAPI.overrideBar : _energyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
+				_gameEnergyCounter.didInitEvent += delegate () { InstantiateEnergyBar(energyBar); };
 			}
 		}
 
@@ -47,62 +29,49 @@ namespace CustomEnergyBar
 			if (energyGo.GetComponentInChildren<EventManager>(true) != null) {
 				foreach (EventManager manager in energyGo.GetComponentsInChildren<EventManager>(true)) {
 					EnergyEventManager eem = manager.gameObject.AddComponent<EnergyEventManager>();
-					eem.eventManager = manager;
-					eem.rootEnergyBar = energyGo;
+					eem.Initialize(_gameEnergyCounter, manager, energyGo);
 				}
 			}
 			if (Plugin.Settings.AllowSFX == false && energyGo.GetComponentInChildren<AudioSource>(true) != null) {
 				foreach (AudioSource audio in energyGo.GetComponentsInChildren<AudioSource>()) {
-					Destroy(audio);
+					UnityEngine.Object.Destroy(audio);
 				}
 			}
 		}
 
-		private void AddBSEvents() {
-			RemoveBSEvents();
-			BS_Utils.Utilities.BSEvents.gameSceneLoaded += OnGameSceneLoaded;
-		}
-
-		private void RemoveBSEvents() {
-			BS_Utils.Utilities.BSEvents.gameSceneLoaded -= OnGameSceneLoaded;
-		}
-
 		public void InstantiateEnergyBar(EnergyBar energyBar) {
-			StartCoroutine(IEInstantiateEnergyBar(energyBar));
-		}
-
-		IEnumerator IEInstantiateEnergyBar(EnergyBar energyBar) {
-			yield return new WaitUntil(() => Resources.FindObjectsOfTypeAll<GameEnergyUIPanel>().Any());
-			GameEnergyUIPanel originalEnergyUI = Resources.FindObjectsOfTypeAll<GameEnergyUIPanel>().FirstOrDefault();
-			yield return new WaitUntil(() => Resources.FindObjectsOfTypeAll<GameEnergyCounter>().Any());
-			GameEnergyCounter energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
-			if (originalEnergyUI.gameObject.activeInHierarchy) {
+			if (_gameEnergyUIPanel.gameObject.activeInHierarchy)
+			{
 				GameObject prefab = energyBar.energyBarPrefab;
-				GameObject go = Instantiate(prefab, originalEnergyUI.transform.position, originalEnergyUI.transform.rotation, originalEnergyUI.transform.parent);
-				if (originalEnergyUI.transform.parent.parent.name == "FlyingGameHUD") {
+				GameObject go = UnityEngine.Object.Instantiate(prefab, _gameEnergyUIPanel.transform.position, _gameEnergyUIPanel.transform.rotation, _gameEnergyUIPanel.transform.parent);
+				if (_gameEnergyUIPanel.transform.parent.parent.name == "FlyingGameHUD")
+				{
 					// 360 and 90 degree levels need the bar to be scaled up
 					go.transform.localScale *= 50;
 				}
 				AddManagers(go);
 				EnergyBarDescriptor descriptor = go.GetComponent<EnergyBarDescriptor>();
-				switch (energyCounter.energyType) {
+				switch (_gameEnergyCounter.energyType)
+				{
 					case GameplayModifiers.EnergyType.Bar:
 						descriptor.standardBar.gameObject.SetActive(true);
 						break;
 					case GameplayModifiers.EnergyType.Battery:
-						int lives = energyCounter.batteryLives;
+						int lives = _gameEnergyCounter.batteryLives;
 						GameObject batteryBar = descriptor.GetBatteryBar(lives);
 						descriptor.standardBar.gameObject.SetActive(batteryBar == null);
 						batteryBar?.SetActive(true);
 						break;
 				}
-				foreach (ImageView iv in originalEnergyUI.GetComponentsInChildren<ImageView>()) {
+				foreach (ImageView iv in _gameEnergyUIPanel.GetComponentsInChildren<ImageView>())
+				{
 					iv.enabled = false;
 				}
-				foreach (Canvas ca in originalEnergyUI.GetComponentsInChildren<Canvas>()) {
+				foreach (Canvas ca in _gameEnergyUIPanel.GetComponentsInChildren<Canvas>())
+				{
 					ca.enabled = false;
 				}
 			}
 		}
-	}
+    }
 }

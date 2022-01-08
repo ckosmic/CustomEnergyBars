@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace CustomEnergyBar.API
 {
 	public class CEBAPI
 	{
+		private static EnergyLoader _energyLoader;
+
 		internal static EnergyBar overrideBar { get; private set; }
+
+		public CEBAPI(EnergyLoader energyLoader) {
+			_energyLoader = energyLoader;
+		}
 
 		/// <summary>
 		/// Loads and returns an energy bar that can be used by various API functions.
@@ -17,9 +18,9 @@ namespace CustomEnergyBar.API
 		/// <param name="data"></param>
 		/// <returns></returns>
 		public static EnergyBar LoadEnergyBar(byte[] data) {
-			EnergyBar energyBar = new EnergyBar(data);
+			EnergyBar energyBar = new EnergyBar(data, _energyLoader.PrefabPool);
 			energyBar.loadedFrom = Assembly.GetCallingAssembly().GetName().Name;
-			EnergyLoader.AddAPIEnergyBar(energyBar);
+			_energyLoader.AddAPIEnergyBar(energyBar);
 			return energyBar;
 		}
 
@@ -29,9 +30,9 @@ namespace CustomEnergyBar.API
 		/// <param name="path"></param>
 		/// <returns></returns>
 		public static EnergyBar LoadEnergyBar(string path) {
-			EnergyBar energyBar = new EnergyBar(path);
+			EnergyBar energyBar = new EnergyBar(path, _energyLoader.PrefabPool);
 			energyBar.loadedFrom = Assembly.GetCallingAssembly().GetName().Name;
-			EnergyLoader.AddAPIEnergyBar(energyBar);
+			_energyLoader.AddAPIEnergyBar(energyBar);
 			return energyBar;
 		}
 
@@ -42,7 +43,7 @@ namespace CustomEnergyBar.API
 		public static void UnloadEnergyBar(EnergyBar energyBar) {
 			if(!IsMyEnergyBar(energyBar))
 				Plugin.Log.Warn("Unloading an energy bar loaded by another mod...  Quite rude tbh.");
-			EnergyLoader.APIEnergyBars.Remove(energyBar);
+			_energyLoader.APIEnergyBars.Remove(energyBar);
 		}
 
 		/// <summary>
@@ -51,7 +52,7 @@ namespace CustomEnergyBar.API
 		/// <param name="bundleId"></param>
 		/// <returns></returns>
 		public static EnergyBar GetEnergyBarByBundleId(string bundleId) {
-			return EnergyLoader.GetAPIEnergyBarByBundleId(bundleId);
+			return _energyLoader.GetAPIEnergyBarByBundleId(bundleId);
 		}
 
 		/// <summary>

@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Zenject;
 using UnityEngine;
 
 namespace CustomEnergyBar
@@ -13,13 +11,14 @@ namespace CustomEnergyBar
 	{
 		private const string _customFolder = "CustomEnergyBars";
 
-		public static bool IsLoaded { get; private set; } = false;
-		public static int SelectedEnergyBar { get; internal set; } = 0;
-		public static List<EnergyBar> CustomEnergyBars { get; private set; } = new List<EnergyBar>();
-		public static List<EnergyBar> APIEnergyBars { get; private set; } = new List<EnergyBar>();
-		public static List<string> AssetBundlePaths { get; private set; } = new List<string>();
+		public bool IsLoaded { get; private set; } = false;
+		public int SelectedEnergyBar { get; internal set; } = 0;
+		public List<EnergyBar> CustomEnergyBars { get; private set; } = new List<EnergyBar>();
+		public List<EnergyBar> APIEnergyBars { get; private set; } = new List<EnergyBar>();
+		public List<string> AssetBundlePaths { get; private set; } = new List<string>();
+		public GameObject PrefabPool = null;
 
-		internal static void Load() {
+		internal void Load() {
 			if (!IsLoaded) {
 				string customPath = Path.Combine(Environment.CurrentDirectory, _customFolder);
 
@@ -27,30 +26,29 @@ namespace CustomEnergyBar
 					Directory.CreateDirectory(_customFolder);
 				}
 
+				PrefabPool = new GameObject("CEB Prefab Pool");
+				PrefabPool.SetActive(false);
+				UnityEngine.Object.DontDestroyOnLoad(PrefabPool);
+
 				string[] bundlePaths = Directory.GetFiles(customPath, "*.energy");
 
 				LoadCustomEnergyBars(bundlePaths);
 				Plugin.Log.Info("Loaded " + bundlePaths.Length + " custom energy bars.");
 
 				if (Plugin.Settings.Selected != "defaultEnergyBar") {
-					for (int i = 0; i < CustomEnergyBars.Count; i++) {
-						if (CustomEnergyBars[i].descriptor.bundleId == Plugin.Settings.Selected) {
-							SelectedEnergyBar = i;
-							break;
-						}
-					}
+					SelectedEnergyBar = CustomEnergyBars.FindIndex(ceb => ceb.descriptor.bundleId == Plugin.Settings.Selected);
 				}
 
 				IsLoaded = true;
 			}
 		}
 
-		internal static void Reload() {
+		internal void Reload() {
 			Clear();
 			Load();
 		}
 
-		internal static void Clear() {
+		internal void Clear() {
 			for (int i = 0; i < CustomEnergyBars.Count; i++) {
 				CustomEnergyBars[i].Destroy();
 				CustomEnergyBars[i] = null;
@@ -60,10 +58,11 @@ namespace CustomEnergyBar
 			SelectedEnergyBar = 0;
 			CustomEnergyBars = new List<EnergyBar>();
 			AssetBundlePaths = new List<string>();
+			UnityEngine.Object.Destroy(PrefabPool);
 		}
 
-		public static void LoadCustomEnergyBars(string[] assetBundlePaths) {
-			EnergyBar defaultEnergyBar = new EnergyBar("");
+		public void LoadCustomEnergyBars(string[] assetBundlePaths) {
+			EnergyBar defaultEnergyBar = new EnergyBar("", PrefabPool);
 			defaultEnergyBar.descriptor = new EnergyBarDescriptor();
 			defaultEnergyBar.descriptor.name = "Default";
 			defaultEnergyBar.descriptor.author = "Beat Saber";
@@ -75,7 +74,7 @@ namespace CustomEnergyBar
 			CustomEnergyBars.Add(defaultEnergyBar);
 
 			foreach (string path in assetBundlePaths) {
-				EnergyBar energyBar = new EnergyBar(path);
+				EnergyBar energyBar = new EnergyBar(path, PrefabPool);
 				if (energyBar != null) {
 					AssetBundlePaths.Add(path);
 					CustomEnergyBars.Add(energyBar);
@@ -83,23 +82,15 @@ namespace CustomEnergyBar
 			}
 		}
 
-		public static EnergyBar GetEnergyBarByBundleId(string bundleId) {
-			foreach (EnergyBar energyBar in CustomEnergyBars) {
-				if (energyBar.descriptor.bundleId == bundleId)
-					return energyBar;
-			}
-			return null;
+		public EnergyBar GetEnergyBarByBundleId(string bundleId) {
+			return CustomEnergyBars.Find(ceb => ceb.descriptor.bundleId == bundleId);
 		}
 
-		public static EnergyBar GetAPIEnergyBarByBundleId(string bundleId) {
-			foreach (EnergyBar energyBar in APIEnergyBars) {
-				if (energyBar.descriptor.bundleId == bundleId)
-					return energyBar;
-			}
-			return null;
+		public EnergyBar GetAPIEnergyBarByBundleId(string bundleId) {
+			return APIEnergyBars.Find(ceb => ceb.descriptor.bundleId == bundleId);
 		}
 
-		public static void AddAPIEnergyBar(EnergyBar energyBar) {
+		public void AddAPIEnergyBar(EnergyBar energyBar) {
 			APIEnergyBars.Add(energyBar);
 		}
 	}

@@ -1,30 +1,27 @@
 ﻿using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.ViewControllers;
 using CustomEnergyBar.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace CustomEnergyBar.Settings.UI
 {
-	internal class SettingsViewController : BSMLResourceViewController
+	[HotReload(RelativePathToLayout = @"Views\settings.bsml")]
+	[ViewDefinition("CustomEnergyBar.Settings.UI.Views.settings.bsml")]
+	internal class SettingsViewController : BSMLAutomaticViewController
 	{
-		public override string ResourceName => "CustomEnergyBar.Settings.UI.Views.settings.bsml";
-
-		public EnergyBarListViewController energyBarListController;
-
 		private readonly string version = $"{ Assembly.GetExecutingAssembly().GetName().Version.ToString(3) }";
 		private const string repoUrl = "https://github.com/ckosmic/CustomEnergyBars";
 		private const string wikiUrl = "https://github.com/ckosmic/CustomEnergyBars/wiki";
 		private const string releaseUrl = "https://github.com/ckosmic/CustomEnergyBars/releases/latest";
+
+		private EnergyLoader _energyLoader;
+
+		public EnergyBarListViewController energyBarListController;
 
 		[UIComponent("update-message")]
 		public TextMeshProUGUI updateMessage;
@@ -41,6 +38,11 @@ namespace CustomEnergyBar.Settings.UI
 				Plugin.Settings.AllowSFX = value;
 				ApplySettings();
 			}
+		}
+
+		[Inject]
+		internal void Construct(EnergyLoader energyLoader) {
+			_energyLoader = energyLoader;
 		}
 
 		[UIAction("#post-parse")]
@@ -92,7 +94,7 @@ namespace CustomEnergyBar.Settings.UI
 		private void ApplySettings() {
 			if (energyBarListController != null && energyBarListController._previewGo != null) {
 				energyBarListController.ClearEnergyBar();
-				energyBarListController.GeneratePreview(EnergyLoader.SelectedEnergyBar);
+				energyBarListController.GeneratePreview(_energyLoader.SelectedEnergyBar);
 			}
 		}
 	}

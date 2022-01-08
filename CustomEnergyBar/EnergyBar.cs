@@ -1,9 +1,4 @@
 ﻿using CustomEnergyBar.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CustomEnergyBar
@@ -15,15 +10,18 @@ namespace CustomEnergyBar
 		public string loadedFrom;
 
 		private AssetBundle _bundle;
+		private GameObject _prefabPool;
 
-		public EnergyBar(string bundlePath) {
+		public EnergyBar(string bundlePath, GameObject prefabPool) {
+			_prefabPool = prefabPool;
 			if (!string.IsNullOrEmpty(bundlePath)) {
 				_bundle = AssetBundle.LoadFromFile(bundlePath);
 				ExtractBundle(_bundle);
 			}
 		}
 
-		public EnergyBar(byte[] bundleData) {
+		public EnergyBar(byte[] bundleData, GameObject prefabPool) {
+			_prefabPool = prefabPool;
 			if (bundleData.Length > 0) {
 				_bundle = AssetBundle.LoadFromMemory(bundleData);
 				ExtractBundle(_bundle);
@@ -36,6 +34,8 @@ namespace CustomEnergyBar
 				descriptor = energyBarPrefab.GetComponent<EnergyBarDescriptor>();
 				if (descriptor.icon == null)
 					descriptor.icon = ResourceUtilities.LoadSpriteFromResource($"CustomEnergyBar.Resources.icon.png");
+				energyBarPrefab.transform.SetParent(_prefabPool.transform);
+				energyBarPrefab.gameObject.name = descriptor.name;
 				assetBundle.Unload(false);
 			} else {
 				return;

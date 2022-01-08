@@ -1,101 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using BS_Utils.Utilities;
-using System.Collections;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace CustomEnergyBar
 {
 	class EnergyEventManager : MonoBehaviour {
-		public EventManager eventManager;
-		public GameObject rootEnergyBar;
 
+		private EventManager _eventManager;
+		private GameObject _rootEnergyBarGO;
 		private float _previousEnergy;
-		private GameEnergyCounter _energyCounter;
+		private GameEnergyCounter _gameEnergyCounter;
 
-		private void OnEnable() {
-			StartCoroutine(IEEventManagerInitialization());
-		}
+		internal void Initialize(GameEnergyCounter gameEnergyCounter, EventManager eventManager, GameObject rootEnergyBarGO) {
+			_gameEnergyCounter = gameEnergyCounter;
+			_eventManager = eventManager;
+			_rootEnergyBarGO = rootEnergyBarGO;
 
-		private void SubscribeToEvents() {
-			BSEvents.energyDidChange += OnEnergyChangedHandler;
-			BSEvents.energyReachedZero += OnEnergyReachedZeroHandler;
-		}
+			_eventManager.OnInit.Invoke();
+			_eventManager.DeserializeEvents();
 
-		private void UnsubscribeFromEvents() {
-			BSEvents.energyDidChange -= OnEnergyChangedHandler;
-			BSEvents.energyReachedZero -= OnEnergyReachedZeroHandler;
-		}
+			SubscribeToEvents();
 
-		private void OnEnergyReachedZeroHandler() {
-			eventManager.OnEnergyReachedZero?.Invoke();
-			if(eventManager.DeactivateOnEnergyReachedZero)
-				rootEnergyBar.SetActive(false);
-		}
+			if (_gameEnergyCounter.energyType == GameplayModifiers.EnergyType.Bar)
+				_previousEnergy = _gameEnergyCounter.energy;
+			else
+				_previousEnergy = 1.1f;
 
-		private void OnEnergyChangedHandler(float energy) {
-			eventManager.OnEnergyChanged?.Invoke(energy);
-			if (energy > _previousEnergy) {
-				eventManager.OnEnergyIncreased?.Invoke();
-			} else if (energy < _previousEnergy) {
-				eventManager.OnEnergyDecreased?.Invoke();
-			}
-			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Battery) {
-				int eventIndex = _energyCounter.batteryEnergy;
-				if (energy > _previousEnergy) {
-					if (eventManager.OnBatteryLivesIncreased.Length > 0 && eventIndex < eventManager.OnBatteryLivesIncreased.Length)
-						eventManager.OnBatteryLivesIncreased[eventIndex-1]?.Invoke();
-				} else if (energy < _previousEnergy) {
-					if (eventManager.OnBatteryLivesDecreased.Length > 0 && eventIndex < eventManager.OnBatteryLivesDecreased.Length)
-						eventManager.OnBatteryLivesDecreased[eventIndex]?.Invoke();
-				}
-			} else {
-				if (energy > _previousEnergy) {
-					if (eventManager.OnBatteryLivesIncreased.Length > 0) {
-						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesIncreased.Length);
-						for (int i = 0; i < eventIndex; i++) {
-							eventManager.OnBatteryLivesIncreased[i-1]?.Invoke();
-						}
-					}
-				} else if (energy < _previousEnergy) {
-					if (eventManager.OnBatteryLivesDecreased.Length > 0) {
-						int eventIndex = Mathf.CeilToInt(energy * eventManager.OnBatteryLivesDecreased.Length);
-						for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
-							eventManager.OnBatteryLivesDecreased[i]?.Invoke();
-						}
-					}
+			OnEnergyChangedHandler(_gameEnergyCounter.energy);
+
+			if (_gameEnergyCounter.energyType == GameplayModifiers.EnergyType.Bar && _eventManager.OnBatteryLivesDecreased.Length > 0) {
+				int eventIndex = Mathf.CeilToInt(_gameEnergyCounter.energy * _eventManager.OnBatteryLivesDecreased.Length);
+				for (int i = eventIndex; i < _eventManager.OnBatteryLivesDecreased.Length; i++) {
+					_eventManager.OnBatteryLivesDecreased[i]?.Invoke();
 				}
 			}
-			_previousEnergy = energy;
 		}
 
 		private void OnDisable() {
 			UnsubscribeFromEvents();
 		}
 
-		IEnumerator IEEventManagerInitialization() {
-			yield return new WaitUntil(() => eventManager != null);
-			eventManager.OnInit.Invoke();
-			eventManager.DeserializeEvents();
-			SubscribeToEvents();
-			_energyCounter = Resources.FindObjectsOfTypeAll<GameEnergyCounter>().FirstOrDefault();
-			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Bar)
-				_previousEnergy = _energyCounter.energy;
-			else
-				_previousEnergy = 1.1f;
-			OnEnergyChangedHandler(_energyCounter.energy);
-			
-			if (_energyCounter.energyType == GameplayModifiers.EnergyType.Bar) {
-				if (eventManager.OnBatteryLivesDecreased.Length > 0) {
-					int eventIndex = Mathf.CeilToInt(_energyCounter.energy * eventManager.OnBatteryLivesDecreased.Length);
-					for (int i = eventIndex; i < eventManager.OnBatteryLivesDecreased.Length; i++) {
-						eventManager.OnBatteryLivesDecreased[i]?.Invoke();
+		private void SubscribeToEvents() {
+            _gameEnergyCounter.gameEnergyDidChangeEvent += OnEnergyChangedHandler;
+			_gameEnergyCounter.gameEnergyDidReach0Event += OnEnergyReachedZeroHandler;
+		}
+
+        private void UnsubscribeFromEvents() {
+			_gameEnergyCounter.gameEnergyDidChangeEvent -= OnEnergyChangedHandler;
+			_gameEnergyCounter.gameEnergyDidReach0Event -= OnEnergyReachedZeroHandler;
+		}
+
+		private void OnEnergyReachedZeroHandler() {
+			_eventManager.OnEnergyReachedZero?.Invoke();
+			if(_eventManager.DeactivateOnEnergyReachedZero)
+				_rootEnergyBarGO.SetActive(false);
+		}
+
+		private void OnEnergyChangedHandler(float energy) {
+			_eventManager.OnEnergyChanged?.Invoke(energy);
+			if (energy > _previousEnergy) {
+				_eventManager.OnEnergyIncreased?.Invoke();
+			} else if (energy < _previousEnergy) {
+				_eventManager.OnEnergyDecreased?.Invoke();
+			}
+
+			UnityEvent[] onBatteryLivesIncreased = _eventManager.OnBatteryLivesIncreased;
+			UnityEvent[] onBatteryLivesDecreased = _eventManager.OnBatteryLivesDecreased;
+
+			if (_gameEnergyCounter.energyType == GameplayModifiers.EnergyType.Battery) {
+				int eventIndex = _gameEnergyCounter.batteryEnergy;
+				if (energy > _previousEnergy) {
+					if (onBatteryLivesIncreased.Length > 0 && eventIndex < onBatteryLivesIncreased.Length)
+						onBatteryLivesIncreased[eventIndex-1]?.Invoke();
+				} else if (energy < _previousEnergy) {
+					if (onBatteryLivesDecreased.Length > 0 && eventIndex < onBatteryLivesDecreased.Length)
+						onBatteryLivesDecreased[eventIndex]?.Invoke();
+				}
+			} else {
+				if (energy > _previousEnergy) {
+					if (onBatteryLivesIncreased.Length > 0) {
+						int eventIndex = Mathf.CeilToInt(energy * onBatteryLivesIncreased.Length);
+						if(eventIndex < onBatteryLivesIncreased.Length) { 
+							for (int i = 0; i < eventIndex; i++) {
+								onBatteryLivesIncreased[i]?.Invoke();
+							}
+						}
+					}
+				} else if (energy < _previousEnergy) {
+					if (onBatteryLivesDecreased.Length > 0) {
+						int eventIndex = Mathf.CeilToInt(energy * onBatteryLivesDecreased.Length);
+						if (eventIndex < onBatteryLivesDecreased.Length) { 
+							for (int i = eventIndex; i < onBatteryLivesDecreased.Length; i++) {
+								onBatteryLivesDecreased[i]?.Invoke();
+							}
+						}
 					}
 				}
 			}
+			_previousEnergy = energy;
 		}
 	}
 }

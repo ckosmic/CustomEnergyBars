@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CustomEnergyBar
@@ -27,14 +23,18 @@ namespace CustomEnergyBar
 		private Coroutine _interpolationCoroutine;
 
 		public void SetFloat(float value) {
-			if (_interpolationCoroutine != null)
-				StopCoroutine(_interpolationCoroutine);
-			_interpolationCoroutine = StartCoroutine(InterpolateFloatValue(_oldFloatValue, value, onFloatValueSet));
+			if (gameObject.activeInHierarchy) {
+				if (_interpolationCoroutine != null)
+					StopCoroutine(_interpolationCoroutine);
+				_interpolationCoroutine = StartCoroutine(InterpolateFloatValue(_oldFloatValue, value, onFloatValueSet));
+			}
 		}
 		public void SetInteger(int value) {
-			if (_interpolationCoroutine != null)
-				StopCoroutine(_interpolationCoroutine);
-			_interpolationCoroutine = StartCoroutine(InterpolateIntValue(_oldIntValue, value, onIntValueSet));
+			if (gameObject.activeInHierarchy) {
+				if (_interpolationCoroutine != null)
+					StopCoroutine(_interpolationCoroutine);
+				_interpolationCoroutine = StartCoroutine(InterpolateIntValue(_oldIntValue, value, onIntValueSet));
+			}
 		}
 		public void SetBool(bool value) {
 			onBoolValueSet.Invoke(value);
@@ -46,11 +46,13 @@ namespace CustomEnergyBar
 			onStringValueSet.Invoke(value);
 		}
 		public void SetColor(string value) {
-			if (_interpolationCoroutine != null)
-				StopCoroutine(_interpolationCoroutine);
 			Color colorValue = Color.white;
 			ColorUtility.TryParseHtmlString(value, out colorValue);
-			_interpolationCoroutine = StartCoroutine(InterpolateColorValue(_oldColorValue, colorValue, onColorValueSet));
+			if (gameObject.activeInHierarchy) {
+				if (_interpolationCoroutine != null)
+					StopCoroutine(_interpolationCoroutine);
+				_interpolationCoroutine = StartCoroutine(InterpolateColorValue(_oldColorValue, colorValue, onColorValueSet));
+			}
 		}
 
 		IEnumerator InterpolateFloatValue(float oldValue, float newValue, Action<float> floatValueSet) {
