@@ -26,7 +26,7 @@ namespace CustomEnergyBar
 
 			Settings = config.Generated<SettingsStore>();
 
-			zenject.Expose<GameEnergyUIPanel>("CEB_GameEnergyUIPanel");
+			zenject.Expose<GameEnergyUIPanel>("Environment");
 			zenject.Install<CEBAppInstaller>(Location.App);
 			zenject.Install<CEBMenuInstaller>(Location.Menu);
 			zenject.Install<CEBGameInstaller>(Location.Player);
