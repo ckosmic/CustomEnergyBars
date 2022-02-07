@@ -1,19 +1,25 @@
 ﻿using CustomEnergyBar.API;
 using HMUI;
+using IPA.Utilities;
+using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 namespace CustomEnergyBar
 {
-	internal class EnergyBarManager : IInitializable {
+	internal class EnergyBarManager : MonoBehaviour, IInitializable, IDisposable {
 
-		private readonly GameEnergyCounter _gameEnergyCounter;
-		private readonly GameEnergyUIPanel _gameEnergyUIPanel;
-		private readonly EnergyLoader _energyLoader;
+		private GameEnergyCounter _gameEnergyCounter;
+		private EnergyLoader _energyLoader;
 
-		public EnergyBarManager(GameEnergyCounter gameEnergyCounter, GameEnergyUIPanel gameEnergyUIPanel, EnergyLoader energyLoader) {
+		private GameEnergyUIPanel _gameEnergyUIPanel;
+		private Coroutine _instantiateBarCoroutine;
+
+		[Inject]
+		internal void Construct(GameEnergyCounter gameEnergyCounter, EnergyLoader energyLoader) {
 			_gameEnergyCounter = gameEnergyCounter;
-			_gameEnergyUIPanel = gameEnergyUIPanel;
 			_energyLoader = energyLoader;
 		}
 
@@ -21,8 +27,12 @@ namespace CustomEnergyBar
 			if (Plugin.Settings.Selected != "defaultEnergyBar") {
 				_energyLoader.Load();
 				EnergyBar energyBar = (CEBAPI.overrideBar != null) ? CEBAPI.overrideBar : _energyLoader.GetEnergyBarByBundleId(Plugin.Settings.Selected);
-				_gameEnergyCounter.didInitEvent += delegate () { InstantiateEnergyBar(energyBar); };
+				_gameEnergyCounter.didInitEvent += delegate () { _instantiateBarCoroutine = StartCoroutine(InstantiateEnergyBar(energyBar)); };
 			}
+		}
+
+		public void Dispose() {
+			StopCoroutine(_instantiateBarCoroutine);
 		}
 
 		public void AddManagers(GameObject energyGo) {
@@ -39,7 +49,11 @@ namespace CustomEnergyBar
 			}
 		}
 
-		public void InstantiateEnergyBar(EnergyBar energyBar) {
+		public IEnumerator InstantiateEnergyBar(EnergyBar energyBar) {
+			// Yeah whatever this is like impossible with Zenject bc theres 3 GameEnergyUIPanels for some reason
+			yield return new WaitUntil(() => Resources.FindObjectsOfTypeAll<GameEnergyUIPanel>().Single(x => x.GetField<IGameEnergyCounter, GameEnergyUIPanel>("_gameEnergyCounter") != null));
+			_gameEnergyUIPanel = Resources.FindObjectsOfTypeAll<GameEnergyUIPanel>().Single(x => x.GetField<IGameEnergyCounter, GameEnergyUIPanel>("_gameEnergyCounter") != null);
+
 			if (_gameEnergyUIPanel.gameObject.activeInHierarchy)
 			{
 				GameObject prefab = energyBar.energyBarPrefab;
